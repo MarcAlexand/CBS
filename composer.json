@@ -1,0 +1,16 @@
+{
+  "name": "MarcAlexand/cbs",
+  "description": "Project for ivs",
+  "license": "mit",
+  "authors": [
+    {
+      "name": "Marc de Boer",
+      "email": "marcdeboer@zeelandnet.nl"
+    }
+  ],
+  "autoload": {
+    "psr-0": {
+      "CBS\\": "app"
+    }
+  }
+}
