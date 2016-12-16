@@ -1,6 +1,8 @@
 <?php
 
 namespace CBS\Controller;
+use CBS\DAO\DbRatingType;
+
 /**
  *
  */
@@ -8,22 +10,94 @@ class ratingTypeController
 {
 
     /**
-     * @var void
+     * @var int
      */
-    protected $idRatingType;
+    private $idRatingType;
 
     /**
-     * @var void
+     * @var string
      */
-    protected $nameRatingType;
+    private $nameRatingType;
 
-
+    /**
+     * @var database
+     */
+    private $db;
 
 
     /**
      *
      */
-    public function __construct():void
+    public function __construct()
+    {
+        $this->db = new DbRatingType();
+    }
+
+    /**
+     * @return int
+     */
+    public function getIdRatingType()
+    {
+        return $this->idRatingType;
+    }
+
+    /**
+     * @return string
+     */
+    public function getNameRatingType()
+    {
+        return $this->nameRatingType;
+    }
+
+    /**
+     * @param int $idRatingType
+     */
+    public function setIdRatingType($idRatingType)
+    {
+        $this->idRatingType = $idRatingType;
+    }
+
+    /**
+     * @param string $nameRatingType
+     */
+    public function setNameRatingType($nameRatingType)
+    {
+        $this->nameRatingType = $nameRatingType;
+    }
+
+    /**
+     * @param $data
+     */
+    public function setRatingTypeFromDatabase($data)
+    {
+        $this->setIdRatingType($data['id_beoordeling_type']);
+        $this->setNameRatingType($data['naam']);
+    }
+
+    /**
+     * Fills the model with data.
+     *
+     * @param $data
+     */
+    public function setRatingTypeToDatabase($data)
+    {
+        $this->setNameRatingType($data['naam']);
+    }
+
+    /**
+     *
+     */
+    public function create($data)
+    {
+        $this->setRatingTypeToDatabase($data);
+        $this->create($data);
+
+    }
+
+    /**
+     *
+     */
+    public function update()
     {
         // TODO: implement here
     }
@@ -31,7 +105,7 @@ class ratingTypeController
     /**
      *
      */
-    public function getRatingTypeList():void
+    public function delete()
     {
         // TODO: implement here
     }
@@ -39,64 +113,23 @@ class ratingTypeController
     /**
      *
      */
-    public function getRatingTypeById():void
+    public function getRatingTypeList()
     {
-        // TODO: implement here
+        $results = $this->db->getDbRatingTypeList();
+        $results = is_array($results) ? $results : [];
+        foreach($results as $result){
+            $level_model[$result['id_beoordeling_type']] = new $this;
+            $level_model[$result['id_beoordeling_type']]->setRatingTypeFromDatabase($result);
+        }
+        return $level_model;
     }
 
     /**
      *
      */
-    public function getRatingTypeId():void
+    public function getRatingTypeById()
     {
         // TODO: implement here
     }
 
-    /**
-     *
-     */
-    public function getRatingTypeName():void
-    {
-        // TODO: implement here
-    }
-
-    /**
-     *
-     */
-    public function setRatingTypeId():void
-    {
-        // TODO: implement here
-    }
-
-    /**
-     *
-     */
-    public function setRatingTypeName():void
-    {
-        // TODO: implement here
-    }
-
-    /**
-     *
-     */
-    public function create():void
-    {
-        // TODO: implement here
-    }
-
-    /**
-     *
-     */
-    public function update():void
-    {
-        // TODO: implement here
-    }
-
-    /**
-     *
-     */
-    public function delete():void
-    {
-        // TODO: implement here
-    }
 }

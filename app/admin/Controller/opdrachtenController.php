@@ -36,7 +36,7 @@ class opdrachtenController
     /**
      *
      */
-    public function __construct():void
+    public function __construct()
     {
         // TODO: implement here
     }
@@ -44,7 +44,7 @@ class opdrachtenController
     /**
      *
      */
-    public function getOpdrachtenLijst():void
+    public function getOpdrachtenLijst()
     {
         // TODO: implement here
     }
@@ -52,7 +52,7 @@ class opdrachtenController
     /**
      *
      */
-    public function getIdOpdracht():void
+    public function getIdOpdracht()
     {
         // TODO: implement here
     }
@@ -60,7 +60,7 @@ class opdrachtenController
     /**
      *
      */
-    public function getOpdrachtNaam():void
+    public function getOpdrachtNaam()
     {
         // TODO: implement here
     }
@@ -68,7 +68,7 @@ class opdrachtenController
     /**
      *
      */
-    public function getTypeOpdracht():void
+    public function getTypeOpdracht()
     {
         // TODO: implement here
     }
@@ -76,7 +76,7 @@ class opdrachtenController
     /**
      *
      */
-    public function getCategorieOpdracht():void
+    public function getCategorieOpdracht()
     {
         // TODO: implement here
     }
@@ -84,7 +84,7 @@ class opdrachtenController
     /**
      *
      */
-    public function getInleverDatum():void
+    public function getInleverDatum()
     {
         // TODO: implement here
     }
@@ -92,7 +92,7 @@ class opdrachtenController
     /**
      *
      */
-    public function getGemaakteOpdrachtenLijst():void
+    public function getGemaakteOpdrachtenLijst()
     {
         // TODO: implement here
     }

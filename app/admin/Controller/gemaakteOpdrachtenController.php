@@ -296,6 +296,53 @@ class gemaakteOpdrachtenController
     }
 
     /**
+     * Fills the Student model with data.
+     *
+     * @param array $data
+     */
+    public function setMadeTasksByStudents($data)
+    {
+        $this->setIdStudent($data->id_leerlingnummer);
+        $this->setStudentVoornaam($data->voornaam_leerling);
+        $this->setStudentTussenvoegsel($data->tussenvoegsel_leerling);
+        $this->setStudentAchternaam($data->achternaam_leerling);
+        $this->setStudentLevel($data->level);
+        $this->setStudentLevelBeschrijving($data->beschrijving);
+        $this->setOpdrachtInleverDatum($data->opdracht_inleverDatum);
+    }
+
+    /**
+     * Fills the Student model with data.
+     *
+     * @param array $data
+     */
+    public function setMadeTasksByTasks($data)
+    {
+        $this->setIdOpdracht($data->id_opdracht);
+        $this->setOpdrachtNaam($data->opdracht_naam);
+        $this->setOpdrachtBeschrijving($data->opdracht_omschrijving);
+        $this->setOpdrachtType($data->opdracht_type);
+        $this->setOpdrachtCategorie($data->opdracht_categorie);
+        $this->setOpdrachtInleverDatum($data->opdracht_inleverDatum);
+    }
+
+    /**
+     * Fills the Student model with data.
+     *
+     * @param array $data
+     */
+    public function setMadeTasksStudetsByTaskId($data)
+    {
+        $this->setIdStudent($data->id_leerlingnummer);
+        $this->setIdOpdracht($data->id_opdracht);
+        $this->setOpdrachtNaam($data->opdracht_naam);
+        $this->setStudentVoornaam($data->voornaam_leerling);
+        $this->setStudentTussenvoegsel($data->tussenvoegsel_leerling);
+        $this->setStudentAchternaam($data->achternaam_leerling);
+        $this->setOpdrachtInleverDatum($data->opdracht_inleverDatum);
+    }
+
+    /**
      *
      */
     public function getGemaakteOpdrachten()
@@ -304,10 +351,40 @@ class gemaakteOpdrachtenController
         $results = $this->api->getMadeTaskList();
         $results = is_array($results) ? $results :[];
         foreach ($results as $result) {
-            $student_model[$result->id_opdracht] = new $this;
-            $student_model[$result->id_opdracht]->setMadeTasks($result);
+            $task_model[$result->id_opdracht] = new $this;
+            $task_model[$result->id_opdracht]->setMadeTasks($result);
         }
-        return $student_model;
+        return $task_model;
+    }
+
+    /**
+     *
+     */
+    public function getGemaakteOpdrachtenById()
+    {
+
+        $results = $this->api->getMadeTaskList();
+        $results = is_array($results) ? $results :[];
+        foreach ($results as $result) {
+            $task_model[$result->id_opdracht] = new $this;
+            $task_model[$result->id_opdracht]->setMadeTasks($result);
+        }
+        return $task_model;
+    }
+
+    /**
+     *
+     */
+    public function getGemaakteOpdrachtenById()
+    {
+
+        $results = $this->api->getMadeTaskList();
+        $results = is_array($results) ? $results :[];
+        foreach ($results as $result) {
+            $task_model[$result->id_opdracht] = new $this;
+            $task_model[$result->id_opdracht]->setMadeTasks($result);
+        }
+        return $task_model;
     }
 
 
@@ -325,7 +402,13 @@ class gemaakteOpdrachtenController
      */
     public function getGemaakteOpdrachtenByOpdrachtId()
     {
-        // TODO: implement here
+        $results = $this->api->getMadeTaskList();
+        $results = is_array($results) ? $results :[];
+        foreach ($results as $result) {
+            $tasks_model[$result->id_opdracht] = new $this;
+            $tasks_model[$result->id_opdracht]->setMadeTasksByTaskByStudents($result);
+        }
+        return $tasks_model;
     }
 
     /**
@@ -333,7 +416,13 @@ class gemaakteOpdrachtenController
      */
     public function getGemaakteOpdrachtenByOpdrachten()
     {
-        // TODO: implement here
+        $results = $this->api->getMadeTaskList();
+        $results = is_array($results) ? $results :[];
+        foreach ($results as $result) {
+            $tasks_model[$result->id_opdracht] = new $this;
+            $tasks_model[$result->id_opdracht]->setMadeTasksByTasks($result);
+        }
+        return $tasks_model;
     }
 
     /**
@@ -341,7 +430,28 @@ class gemaakteOpdrachtenController
      */
     public function getGemaakteOpdrachtenByLeerlingen()
     {
-        // TODO: implement here
+        $results = $this->api->getMadeTaskList();
+        $results = is_array($results) ? $results :[];
+        foreach ($results as $result) {
+            $student_model[$result->id_leerlingnummer] = new $this;
+            $student_model[$result->id_leerlingnummer]->setMadeTasksByStudents($result);
+        }
+        return $student_model;
+    }
+
+    /**
+     *
+     */
+    public function getGemaakteOpdrachtLeerlingenByOpdrachtId($id)
+    {
+
+        $results = $this->api->getMadeTaskStudentsByTasksId($id);
+        $results = is_array($results) ? $results :[];
+        foreach ($results as $result) {
+            $student_model[$result->id_leerlingnummer] = new $this;
+            $student_model[$result->id_leerlingnummer]->setMadeTasksStudetsByTaskId($result);
+        }
+        return $student_model;
     }
 
 

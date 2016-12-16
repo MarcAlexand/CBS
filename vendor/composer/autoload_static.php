@@ -18,6 +18,9 @@ class ComposerStaticInitdf03ee6e12bd6f46f979fef808079c3c
 
     public static $classMap = array (
         'CBS\\API\\APIFromBIS' => __DIR__ . '/../..' . '/app/admin/API/APIFromBIS.php',
+        'CBS\\Controller\\FormValidator' => __DIR__ . '/../..' . '/app/admin/Controller/FormValidator.php',
+        'CBS\\Controller\\ratingTypeController' => __DIR__ . '/../..' . '/app/admin/Controller/ratingTypeController.php',
+        'CBS\\DAO\\DbRatingType' => __DIR__ . '/../..' . '/app/admin/Dao/DbRatingType.php',
         'CBS\\gemaakteOpdrachtenController\\gemaakteOpdrachtenController' => __DIR__ . '/../..' . '/app/admin/Controller/gemaakteOpdrachtenController.php',
     );
 

@@ -4,11 +4,13 @@
 /**
  *
  */
-interface APIToBis
+class APIToBis
 {
     /**
      * @param void $$dStudent
      * @param void $$idTask
      */
-    public function getRatedTasks($$dStudent, $$idTask):void;
+        public function getRatedTasks($dStudent, $idTask){
+
+    }
 }

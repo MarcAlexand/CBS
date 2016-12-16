@@ -7,5 +7,8 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'CBS\\API\\APIFromBIS' => $baseDir . '/app/admin/API/APIFromBIS.php',
+    'CBS\\Controller\\FormValidator' => $baseDir . '/app/admin/Controller/FormValidator.php',
+    'CBS\\Controller\\ratingTypeController' => $baseDir . '/app/admin/Controller/ratingTypeController.php',
+    'CBS\\DAO\\DbRatingType' => $baseDir . '/app/admin/Dao/DbRatingType.php',
     'CBS\\gemaakteOpdrachtenController\\gemaakteOpdrachtenController' => $baseDir . '/app/admin/Controller/gemaakteOpdrachtenController.php',
 );
