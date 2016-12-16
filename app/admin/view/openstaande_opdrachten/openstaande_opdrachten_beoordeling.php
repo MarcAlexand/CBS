@@ -3,9 +3,15 @@
 $current_page = 'CBS_admin_openstaande_opdrachten';
 $gemaakteOpdrachten = new \CBS\gemaakteOpdrachtenController\gemaakteOpdrachtenController();
 
+
 $opdracht_id = $_GET['idopdracht'];
 $student_id = $_GET['idstudent'];
 
+global $current_user;
+$coach_id = $current_user->ID;
+$coach_name = $current_user->user_firstname ." ". $current_user->user_lastname;
+
+var_dump($coach_name);
 ?>
 
 

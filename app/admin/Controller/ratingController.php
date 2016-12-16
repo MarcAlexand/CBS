@@ -1,5 +1,6 @@
 <?php
 
+namespace CBS\Controller;
 
 /**
  *
@@ -8,39 +9,39 @@ class ratingController
 {
 
     /**
-     * @var void
+     * @var int
      */
-    protected $idRating;
+    private $idRating;
 
     /**
-     * @var void
+     * @var date
      */
-    protected $dateRating;
+    private $dateRating;
 
     /**
-     * @var void
+     * @var string
      */
-    protected $noteRating;
+    private $noteRating;
 
     /**
-     * @var void
+     * @var int
      */
-    protected $$IdTask;
+    private $IdTask;
 
     /**
-     * @var void
+     * @var int
      */
-    public $$IdCoach;
+    private $IdCoach;
 
     /**
-     * @var void
+     * @var int
      */
-    protected $$IdStudent;
+    protected $IdStudent;
 
     /**
-     * @var void
+     * @var int
      */
-    public $$IdRatingType;
+    public $IdRatingType;
 
 
 
@@ -49,7 +50,7 @@ class ratingController
     /**
      *
      */
-    public function __construct():void
+    public function __construct()
     {
         // TODO: implement here
     }
@@ -57,7 +58,7 @@ class ratingController
     /**
      *
      */
-    public function getRatingList():void
+    public function getRatingList()
     {
         // TODO: implement here
     }
@@ -65,7 +66,7 @@ class ratingController
     /**
      *
      */
-    public function getRatingById():void
+    public function getRatingById()
     {
         // TODO: implement here
     }
@@ -73,7 +74,7 @@ class ratingController
     /**
      *
      */
-    public function getRatingId():void
+    public function getRatingId()
     {
         // TODO: implement here
     }
@@ -81,7 +82,7 @@ class ratingController
     /**
      *
      */
-    public function getRatingDate():void
+    public function getRatingDate()
     {
         // TODO: implement here
     }
@@ -89,7 +90,7 @@ class ratingController
     /**
      *
      */
-    public function getRatingNote():void
+    public function getRatingNote()
     {
         // TODO: implement here
     }
@@ -97,7 +98,7 @@ class ratingController
     /**
      *
      */
-    public function getCoachList():void
+    public function getCoachList()
     {
         // TODO: implement here
     }
@@ -105,7 +106,7 @@ class ratingController
     /**
      *
      */
-    public function getTaskList():void
+    public function getTaskList()
     {
         // TODO: implement here
     }
@@ -113,7 +114,7 @@ class ratingController
     /**
      *
      */
-    public function getRatingTypeList():void
+    public function getRatingTypeList()
     {
         // TODO: implement here
     }
@@ -121,7 +122,7 @@ class ratingController
     /**
      *
      */
-    public function getPendingTaskList():void
+    public function getPendingTaskList()
     {
         // TODO: implement here
     }
@@ -129,7 +130,7 @@ class ratingController
     /**
      *
      */
-    public function getStudentList():void
+    public function getStudentList()
     {
         // TODO: implement here
     }
@@ -137,7 +138,7 @@ class ratingController
     /**
      *
      */
-    public function getRatedTask():void
+    public function getRatedTask()
     {
         // TODO: implement here
     }
@@ -145,7 +146,7 @@ class ratingController
     /**
      * @param void $id
      */
-    public function setRatingId($id):void
+    public function setRatingId($id)
     {
         // TODO: implement here
     }
@@ -153,7 +154,7 @@ class ratingController
     /**
      * @param void $date
      */
-    public function setRatingDate($date):void
+    public function setRatingDate($date)
     {
         // TODO: implement here
     }
@@ -161,7 +162,7 @@ class ratingController
     /**
      * @param void $note
      */
-    public function setRatingNote($note):void
+    public function setRatingNote($note)
     {
         // TODO: implement here
     }
@@ -169,7 +170,7 @@ class ratingController
     /**
      *
      */
-    public function create():void
+    public function create()
     {
         // TODO: implement here
     }
@@ -177,7 +178,7 @@ class ratingController
     /**
      *
      */
-    public function update():void
+    public function update()
     {
         // TODO: implement here
     }
@@ -185,7 +186,7 @@ class ratingController
     /**
      *
      */
-    public function setRatedTask():void
+    public function setRatedTask()
     {
         // TODO: implement here
     }

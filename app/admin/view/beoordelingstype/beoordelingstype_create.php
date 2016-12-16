@@ -6,9 +6,9 @@ $form_validator_object = new \CBS\Controller\FormValidator();
 if (isset($_POST['submit_nieuwe_beoordelingstype']) && !empty($_POST['submit_nieuwe_beoordelingstype'])) {
     // Validate the input data from the form
     $ratingType_form_data = $form_validator_object->ratingTypeCreateFormValidator();
-    var_dump($ratingType_form_data);
     // Call the function Create and sends the $form_data with it
-    $ratingType->create($ratingType_form_data);
+    $ratingType->setNameRatingType($_POST['naam']);
+    $ratingType->create();
     echo '<script>location.href="?page=CBS_admin_beoordelingstype_lijst";</script>';
 
 

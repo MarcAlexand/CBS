@@ -15,7 +15,7 @@ class DbRatingType
     /**
      * @var void
      */
-    protected $nameRatingTyoe;
+    protected $nameRatingType;
 
 
     /**
@@ -30,12 +30,12 @@ class DbRatingType
     /**
      *
      */
-    public function createDb($data)
+    public function createDb()
     {
         global $wpdb;
         if(!$this->wpdb->insert(
             $wpdb->prefix.'ivs_beoordelings_type',
-            ['naam' => $this->getRatingTypeName()]
+            ['naam' => $this->getNameRatingType()]
         )
         ){
             return false;
@@ -85,35 +85,37 @@ class DbRatingType
         // TODO: implement here
     }
 
+
     /**
-     *
+     * @return void
      */
-    public function getRatingTypeId()
+    public function getIdRatingType()
     {
-        // TODO: implement here
+        return $this->idRatingType;
     }
 
     /**
-     *
+     * @return void
      */
-    public function getRatingTypeName()
+    public function getNameRatingType()
     {
-        // TODO: implement here
+        return $this->nameRatingType;
+    }
+
+
+    /**
+     * @param void $idRatingType
+     */
+    public function setIdRatingType($idRatingType)
+    {
+        $this->idRatingType = $idRatingType;
     }
 
     /**
-     *
+     * @param void $nameRatingTyoe
      */
-    public function setRatingTypeId()
+    public function setNameRatingType($nameRatingTyoe)
     {
-        // TODO: implement here
-    }
-
-    /**
-     *
-     */
-    public function setRatingTypeName()
-    {
-        // TODO: implement here
+        $this->nameRatingType = $nameRatingTyoe;
     }
 }

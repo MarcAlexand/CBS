@@ -343,6 +343,17 @@ class gemaakteOpdrachtenController
     }
 
     /**
+     * Fills the Student model with data.
+     *
+     * @param array $data
+     */
+    public function setMadeTasksById($data)
+    {
+        $this->setIdOpdracht($data->id_opdracht);
+        $this->setOpdrachtNaam($data->opdracht_naam);
+    }
+
+    /**
      *
      */
     public function getGemaakteOpdrachten()
@@ -375,7 +386,7 @@ class gemaakteOpdrachtenController
     /**
      *
      */
-    public function getGemaakteOpdrachtenById()
+    public function getGemaakteOpdrachtById()
     {
 
         $results = $this->api->getMadeTaskList();

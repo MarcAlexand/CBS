@@ -87,10 +87,11 @@ class ratingTypeController
     /**
      *
      */
-    public function create($data)
+    public function create()
     {
-        $this->setRatingTypeToDatabase($data);
-        $this->create($data);
+        $this->db->setNameRatingType($this->nameRatingType);
+        var_dump($this);
+        $this->db->createDb();
 
     }
 
