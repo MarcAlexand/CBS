@@ -11,7 +11,9 @@ $student_id = $_GET['idstudent'];
 
 $opdracht = $gemaakteOpdrachten->getGemaakteOpdrachtById($opdracht_id);
 
-
+foreach($opdracht as $titleopdracht){
+    $nieuwevar = $titleopdracht->opdrachtNaam;
+}
 ?>
 
 
@@ -22,7 +24,7 @@ $opdracht = $gemaakteOpdrachten->getGemaakteOpdrachtById($opdracht_id);
         <tbody>
             <tr>
                 <th>
-                    Opdracht titel
+                    <?php echo $nieuwevar; ?>
                 </th>
                 <td>
                     <div class="radio">

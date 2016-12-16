@@ -380,6 +380,7 @@ class gemaakteOpdrachtenController
             $task_model[$result->id_opdracht] = new $this;
             $task_model[$result->id_opdracht]->setMadeTasks($result);
         }
+
         return $task_model;
     }
 
@@ -388,12 +389,10 @@ class gemaakteOpdrachtenController
      */
     public function getGemaakteOpdrachtById($id)
     {
-
-        $results = $this->api->getMadeTaskList();
-        $results = is_array($results) ? $results :[];
+        $results = $this->api->getMadeTaskId($id);
         foreach ($results as $result) {
             $task_model[$result->id_opdracht] = new $this;
-            $task_model[$result->id_opdracht]->setMadeTasks($result);
+            $task_model[$result->id_opdracht]->setMadeTasksById($result);
         }
         return $task_model;
     }
