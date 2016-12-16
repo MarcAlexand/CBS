@@ -386,7 +386,7 @@ class gemaakteOpdrachtenController
     /**
      *
      */
-    public function getGemaakteOpdrachtById()
+    public function getGemaakteOpdrachtById($id)
     {
 
         $results = $this->api->getMadeTaskList();

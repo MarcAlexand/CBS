@@ -90,7 +90,6 @@ class ratingTypeController
     public function create()
     {
         $this->db->setNameRatingType($this->nameRatingType);
-        var_dump($this);
         $this->db->createDb();
 
     }
