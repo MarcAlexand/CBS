@@ -1,10 +1,10 @@
 <?php
-$coach = new \PMS\Controller\CoachController();
+$beoordelingstype = new \CBS\Controller\ratingTypeController();
 
 $id = $_GET['id'];
 
-$coach->deleteByCoachId($id);
-echo '<script>location.href="?page=PMS_admin_coach_lijst";</script>';
+$beoordelingstype->delete($id);
+echo '<script>location.href="?page=CBS_admin_beoordelingstype_lijst";</script>';
 
 ?>
 

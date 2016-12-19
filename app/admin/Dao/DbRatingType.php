@@ -53,16 +53,21 @@ class DbRatingType
         $this->wpdb->query(
             "UPDATE `". $wpdb->prefix."ivs_beoordelings_type`
               SET `naam` = '". $beoordelingstype['naam']. "'
-              WHERE `". $wpdb->prefix."ivs_beoordelings_type`.`id_beoordeling_type` = '".$beoordelingstype['id_beoordeling_type']."';"
+              WHERE `". $wpdb->prefix."ivs_beoordelings_type`.`id_beoordelings_type` = '".$beoordelingstype['id_beoordelings_type']."';"
         );
     }
 
     /**
      *
      */
-    public function deleteDb()
+    public function deleteDb($beoordelings_type)
     {
-        // TODO: implement here
+        global $wpdb;
+        $this->wpdb->query(
+            "DELETE FROM `". $wpdb->prefix."ivs_beoordelings_type`
+                WHERE id_beoordelings_type = $beoordelings_type
+                 "
+        );
     }
 
     /**
@@ -90,7 +95,7 @@ class DbRatingType
     {
         global $wpdb;
         if(!$result = $this->wpdb->get_row(
-            "SELECT * FROM `". $wpdb->prefix."ivs_beoordelings_type` WHERE `id_beoordeling_type` = $beoordelings_id",
+            "SELECT * FROM `". $wpdb->prefix."ivs_beoordelings_type` WHERE `id_beoordelings_type` = $beoordelings_id",
             ARRAY_A
         )){
             return false;

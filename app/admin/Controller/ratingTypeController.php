@@ -71,7 +71,7 @@ class ratingTypeController
      */
     public function setRatingTypeFromDatabase($data)
     {
-        $this->setIdRatingType($data['id_beoordeling_type']);
+        $this->setIdRatingType($data['id_beoordelings_type']);
         $this->setNameRatingType($data['naam']);
     }
 
@@ -107,9 +107,9 @@ class ratingTypeController
     /**
      *
      */
-    public function delete()
+    public function delete($beoordelings_type)
     {
-        // TODO: implement here
+        $this->db->deleteDb($beoordelings_type);
     }
 
     /**
@@ -120,8 +120,8 @@ class ratingTypeController
         $results = $this->db->getDbRatingTypeList();
         $results = is_array($results) ? $results : [];
         foreach($results as $result){
-            $level_model[$result['id_beoordeling_type']] = new $this;
-            $level_model[$result['id_beoordeling_type']]->setRatingTypeFromDatabase($result);
+            $level_model[$result['id_beoordelings_type']] = new $this;
+            $level_model[$result['id_beoordelings_type']]->setRatingTypeFromDatabase($result);
         }
         return $level_model;
     }
