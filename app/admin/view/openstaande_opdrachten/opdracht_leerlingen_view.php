@@ -11,6 +11,8 @@ $niet_beoordeelde_lijst = $gemaakteOpdrachten->getGemaakteOpdrachtLeerlingenByOp
 $beoordeelde_object_lijst = $beoordeelde_object->getRatedTaskList();
 foreach($opdracht_naam as $titleopdracht){$opdrachttitel = $titleopdracht->opdrachtNaam;}
 
+var_dump($beoordeelde_object_lijst);
+var_dump($niet_beoordeelde_lijst);
 
 ?>
 
