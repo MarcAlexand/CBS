@@ -6,12 +6,13 @@ $beoordeeelde_opdrachten = new \CBS\Controller\ratingController();
 
 $student_id = $_GET['id'];
 $student_info = $gemaakteOpdrachten->getGemaakteOpdrachtenByStudentId($student_id);
-$beoordeeelde_object_list = $beoordeeelde_opdrachten->getRatedTaskList();
+$beoordeeelde_object_list = $beoordeeelde_opdrachten->getRatedTaskListByStudent($student_id );
+var_dump($beoordeeelde_object_list);
 foreach($student_info as $studentnaam){
        $naam =  $studentnaam->getStudentVoornaam() ." ". $studentnaam->getStudentTussenvoegsel() ." ". $studentnaam->getStudentAchternaam();
 }
-foreach($beoordeeelde_object_list as $beoordeelde_object){
-    $opdracht_id = $beoordeelde_object->getIdTask();
+foreach($beoordeeelde_object_list as $beoordeeelde_opdrachten){
+    $opdracht_id = $beoordeeelde_opdrachten->getIdTask();
 }
 
 ?>
@@ -79,7 +80,34 @@ foreach($beoordeeelde_object_list as $beoordeelde_object){
                             </td>
                         </tr>
                         <?php
-                    }
+                    } elseif($student->getIdOpdracht() == $opdracht_id) { ?>
+                        <tr id="post-2" class="iedit author-self level-0 post-2 type-page status-publish hentry">
+                            <input id="cb-select-2" type="hidden" value="<?php echo $student->getIdOpdracht(); ?>">
+                            <td class="title column-title has-row-actions column-primary page-title" data-colname="Titel">
+                                <strong>
+                                    <?php
+                                    $edit = 'admin.php?page=CBS_admin_openstaande_opdrachten&action=rate&idstudent='.$student->getIdStudent().'&idopdracht='.$student->getIdOpdracht();
+                                    $urledit = admin_url($edit); ?>
+                                    <a class="row-title" href="<?php echo $urledit; ?>">
+                                        <?php echo $student->getIdOpdracht(). $student->getIdStudent(); ?>
+                                    </a>
+                                </strong>
+                            </td>
+                            <td class="title column-title has-row-actions column-primary page-title" data-colname="Titel">
+                                <strong>
+                                    <?php
+                                    $edit = 'admin.php?page=CBS_admin_openstaande_opdrachten&action=rate&idstudent='.$student->getIdStudent().'&idopdracht='.$student->getIdOpdracht();
+                                    $urledit = admin_url($edit); ?>
+                                    <a class="row-title" href="<?php echo $urledit; ?>">
+                                        <?php echo $student->getOpdrachtNaam() ; ?>
+                                    </a>
+                                </strong>
+                            </td>
+                            <td class="title column-title has-row-actions column-primary page-title" data-colname="Titel">
+                                <?php echo $student->getOpdrachtInleverDatum(); ?>
+                            </td>
+                        </tr>
+                   <?php }
                 }
             } else { ?>
                 <tr id="post-2" class="iedit author-self level-0 post-2 type-page status-publish hentry">

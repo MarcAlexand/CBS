@@ -440,7 +440,7 @@ class gemaakteOpdrachtenController
      */
     public function getGemaakteOpdrachtenByOpdrachtId()
     {
-        $results = $this->api->getMadeTaskList();
+        $results = $this->api->getMadeTaskListById();
         $results = is_array($results) ? $results :[];
         foreach ($results as $result) {
             $tasks_model[$result->id_opdracht] = new $this;
