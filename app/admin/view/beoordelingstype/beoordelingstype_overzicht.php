@@ -16,7 +16,7 @@ $urlcreate = admin_url($create);
     <h1>Beoordelingstype lijst <a href="<?php echo $urlcreate; ?>" class="page-title-action">Nieuwe Beoordelingstype</a></h1>
 
 
-    <h2 class="screen-reader-text">Coach filteren</h2>
+    <h2 class="screen-reader-text">Beoordelingstype filteren</h2>
     <form id="posts-filter" method="get">
         <input type="hidden" name="post_status" class="post_status_page" value="all">
         <input type="hidden" name="post_type" class="post_type_page" value="post">
@@ -90,7 +90,6 @@ $urlcreate = admin_url($create);
             </tr>
             </tfoot>
         </table>
-
     </form>
     <div id="ajax-response"></div>
     <br class="clear">
