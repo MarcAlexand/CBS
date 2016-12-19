@@ -9,15 +9,16 @@ global $current_user;
 $coach_id = $current_user->ID;
 //Naam van huidige gebruiker
 //$coach_name = $current_user->user_firstname ." ". $current_user->user_lastname;
-//opdracht id
-$opdracht_id = $_GET['idopdracht'];
-//student id
-$student_id = $_GET['idstudent'];
+//Koppel id van opdracht en leerling
+$opdracht_leerling_id = $_GET['made_task'];
 
 // haal opdracht naam op op basis van opdracht id
-$opdracht = $gemaakteOpdrachten->getGemaakteOpdrachtById($opdracht_id);
+$opdracht = $gemaakteOpdrachten->getGemaakteOpdrachtLeerlingByOpdrachtleerlingId($opdracht_leerling_id);
 // haal naam uit foreach
-foreach($opdracht as $titleopdracht){$nieuwevar = $titleopdracht->opdrachtNaam;}
+foreach($opdracht as $titleopdracht){
+    $opdracht_titel = $titleopdracht->opdrachtNaam;
+    $opdracht_omschrijving = $titleopdracht->getOpdrachtBeschrijving();
+}
 // haal lijst van beoordelingstype op
 $beoordelingstype_object_list = $beoordelingstype_object->getRatingTypeList();
 // beoordeling op slaan
@@ -26,8 +27,7 @@ if (isset($_POST['submit_nieuwe_beoordeling']) && !empty($_POST['submit_nieuwe_b
     // Call the function Create and sends the $form_data with it
     $beoordeling->setIdRatingType($_POST['grade']);
     $beoordeling->setIdCoach($_POST['coachid']);
-    $beoordeling->setIdStudent($_POST['studentid']);
-    $beoordeling->setIdTask($_POST['opdrachtid']);
+    $beoordeling->setIdStudentTask($_POST['opdracht_leerling_id']);
     $beoordeling->setNoteRating($_POST['opmerking']);
     $beoordeling->create();
     echo '<script>location.href="?page=CBS_admin_openstaande_opdrachten";</script>';
@@ -44,10 +44,9 @@ if (isset($_POST['submit_nieuwe_beoordeling']) && !empty($_POST['submit_nieuwe_b
         <tbody>
             <tr>
                 <th>
-                    <?php echo $nieuwevar; ?>
+                    <?php echo $opdracht_titel." - ".$opdracht_omschrijving; ?>
                     <input type="hidden" name="coachid" value="<?php echo $coach_id; ?>">
-                    <input type="hidden" name="studentid" value="<?php echo $student_id; ?>">
-                    <input type="hidden" name="opdrachtid" value="<?php echo $opdracht_id; ?>">
+                    <input type="hidden" name="opdracht_leerling_id" value="<?php echo $opdracht_leerling_id; ?>">
                 </th>
                 <td>
                     <div class="radio">

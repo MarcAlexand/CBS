@@ -33,14 +33,9 @@ class DbRating
     private $idCoach;
 
     /*
-     * @var int
-     */
-    private $idStudent;
-
-    /*
-     * @var int
-     */
-    private $idTask;
+    * @var int
+    */
+    private $idStudentTask;
 
 
     /**
@@ -86,14 +81,6 @@ class DbRating
     }
 
     /**
-     * @return mixed
-     */
-    public function getIdStudent()
-    {
-        return $this->idStudent;
-    }
-
-    /**
      * @return string
      */
     public function getNoteRating()
@@ -104,9 +91,9 @@ class DbRating
     /**
      * @return mixed
      */
-    public function getIdTask()
+    public function getIdStudentTask()
     {
-        return $this->idTask;
+        return $this->idStudentTask;
     }
 
     /**
@@ -142,14 +129,6 @@ class DbRating
     }
 
     /**
-     * @param mixed $idStudent
-     */
-    public function setIdStudent($idStudent)
-    {
-        $this->idStudent = $idStudent;
-    }
-
-    /**
      * @param string $noteRating
      */
     public function setNoteRating($noteRating)
@@ -158,14 +137,12 @@ class DbRating
     }
 
     /**
-     * @param mixed $idTask
+     * @param mixed $idStudentTask
      */
-    public function setIdTask($idTask)
+    public function setIdStudentTask($idStudentTask)
     {
-        $this->idTask = $idTask;
+        $this->idStudentTask = $idStudentTask;
     }
-
-
     /**
      *
      */
@@ -179,8 +156,7 @@ class DbRating
                     'datum' => date("Y-m-d"),
                     'fk_beoordeling_type' => $this->getIdRatingType(),
                     'fk_coach' => $this->getIdCoach(),
-                    'fk_opdracht' => $this->getIdTask(),
-                    'fk_leerling' => $this->getIdStudent(),
+                    'fk_leerling_opdracht' =>  $this->getIdStudentTask(),
                 ]
             )
         ){
@@ -203,7 +179,26 @@ class DbRating
     /**
      *
      */
-    public function getRatingListDb($studentid)
+    public function getRatingListDb()
+    {
+        global $wpdb;
+        if(!$results = $this->wpdb->get_results(
+            "
+            SELECT *
+            FROM `". $wpdb->prefix."ivs_beoordeling`
+            ",
+            ARRAY_A
+        )){
+
+            return false;
+        }
+        return $results;
+    }
+
+    /**
+     *
+     */
+    public function getRatingListByIdDb($studentid)
     {
         global $wpdb;
         if(!$results = $this->wpdb->get_results(
