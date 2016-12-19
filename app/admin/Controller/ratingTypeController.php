@@ -1,6 +1,7 @@
 <?php
 
 namespace CBS\Controller;
+
 use CBS\DAO\DbRatingType;
 
 /**
@@ -97,9 +98,10 @@ class ratingTypeController
     /**
      *
      */
-    public function update()
+    public function update($data)
     {
-        // TODO: implement here
+        $this->setRatingTypeFromDatabase($data);
+        $this->db->updateDb($data);
     }
 
     /**
@@ -127,9 +129,11 @@ class ratingTypeController
     /**
      *
      */
-    public function getRatingTypeById()
+    public function getRatingTypeById($beoordelingstype_id)
     {
-        // TODO: implement here
+        $data = $this->db->getDbRatingTypeById($beoordelingstype_id);
+        $this->setRatingTypeFromDatabase($data);
+        return $this;
     }
 
 }

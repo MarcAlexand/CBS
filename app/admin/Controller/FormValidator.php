@@ -28,4 +28,40 @@ class FormValidator
 
         return filter_input_array(INPUT_POST, $validate);
     }
+
+    /**
+     * This validator is only for the address form.
+     * Validate every value from the $_POST.
+     *
+     * @return mixed
+     */
+    public function ratingTypeEditFormValidator()
+    {
+        $validate = [
+            'id_beoordeling_type' => FILTER_SANITIZE_NUMBER_INT,
+            'naam' => FILTER_SANITIZE_STRING,
+        ];
+
+        return filter_input_array(INPUT_POST, $validate);
+    }
+
+    /**
+     * This validator is only for the address form.
+     * Validate every value from the $_POST.
+     *
+     * @return mixed
+     */
+    public function ratingCreateFormValidator()
+    {
+        $validate = [
+            'coachid' => FILTER_SANITIZE_NUMBER_INT,
+            'studentid' => FILTER_SANITIZE_NUMBER_INT,
+            'opdrachtid' => FILTER_SANITIZE_NUMBER_INT,
+            'grade' => FILTER_SANITIZE_NUMBER_INT,
+            'opmerking' => FILTER_SANITIZE_STRING,
+
+        ];
+
+        return filter_input_array(INPUT_POST, $validate);
+    }
 }

@@ -1,52 +1,42 @@
 <?php
 
-$coach = new \PMS\Controller\CoachController();
-$form_validator_object = new \PMS\Model\FormValidator();
+$beoordelingstype = new \CBS\Controller\ratingTypeController();
+$form_validator_object = new \CBS\Controller\FormValidator();
 
 $id = $_GET['id'];
 
-$coach_object = $coach->getCoachById($id);
-$coach_object_list = $coach_object->getList();
+$beoordelingstype_object = $beoordelingstype->getRatingTypeById($id);
 
-if (isset($_POST['submit_coach_aanpassen']) && !empty($_POST['submit_coach_aanpassen'])) {
+if (isset($_POST['submit_beoordelingstype_aanpassen']) && !empty($_POST['submit_beoordelingstype_aanpassen'])) {
     // Validate the input data from the form
-    $coach_form_data = $form_validator_object->coachFormValidator();
-    $coach->editForm($coach_form_data);
-    echo '<script>location.href="?page=PMS_admin_coach_lijst";</script>';
+    $beoordelingstype_form_data = $form_validator_object->ratingTypeEditFormValidator();
+    $beoordelingstype->update($beoordelingstype_form_data);
+    echo '<script>location.href="?page=CBS_admin_beoordelingstype_lijst";</script>';
 }
 ?>
 
 <div class="wrap">
-    <h1><?php _e( 'Coach aanpassen', 'IVS Highscore' ); ?></h1>
+    <h1><?php _e( 'Beoordelingstype aanpassen', 'IVS Highscore' ); ?></h1>
 
     <form method="post">
 
         <table class="form-table">
             <tbody>
-            <tr class="row-klas">
-                <th scope="row">
-                    <label for="coach"><?php _e( 'Coach', 'Backend IVS' ); ?></label>
-                </th>
-                <td>
-                    <input type="hidden" name="coach_id" value="<?php echo $coach_object->getId();  ?>"/>
-                    <input type="text" name="coach" value="<?php echo $coach->getName();  ?>" placeholder="<?php echo $coach->getName();  ?>" required="required" style="width: 40%;" />
-                </td>
-            </tr>
-            <tr class="row-level">
-                <th scope="row">
-                    <label for="coach"><?php _e( 'Email', 'Backend IVS' ); ?></label>
-                </th>
-                <td>
-                    <input type="hidden" name="coach_id" value="<?php echo $coach_object->getId();  ?>"/>
-                    <input type="text" name="email" value="<?php echo $coach->getMail();  ?>" placeholder="<?php echo $coach->getMail();  ?>" required="required" style="width: 40%;" />
-                </td>
-            </tr>
+                <tr class="row-klas">
+                    <th scope="row">
+                        <label for="coach"><?php _e( 'Beoordelingstype', 'Backend IVS' ); ?></label>
+                    </th>
+                    <td>
+                        <input type="hidden" name="id_beoordeling_type" value="<?php echo $beoordelingstype_object->getIdRatingType();  ?>"/>
+                        <input type="text" name="naam" value="<?php echo $beoordelingstype_object->getNameRatingType();  ?>" placeholder="<?php echo $beoordelingstype_object->getNameRatingType();  ?>" required="required" style="width: 40%;" />
+                    </td>
+                </tr>
             </tbody>
         </table>
         <input type="hidden" name="field_id" value="">
 
-        <?php wp_nonce_field( 'coach-aanpassen' ); ?>
-        <?php submit_button( __( 'Aanpassen', 'Backend IVS' ), 'primary', 'submit_coach_aanpassen' ); ?>
+        <?php wp_nonce_field( 'beoordelingstype-aanpassen' ); ?>
+        <?php submit_button( __( 'Aanpassen', 'Backend IVS' ), 'primary', 'submit_beoordelingstype_aanpassen' ); ?>
 
     </form>
 </div>

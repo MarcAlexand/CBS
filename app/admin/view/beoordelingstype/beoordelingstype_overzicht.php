@@ -51,7 +51,7 @@ $urlcreate = admin_url($create);
                             <div class="row-actions">
                                 <span class="edit">
                                     <?php
-                                    $edit = 'admin.php?page=CBS_admin_beoordelingstype_lijst&action=edit&id=' .$ratingType->getIdRatingType();
+                                    $edit = 'admin.php?page=CBS_admin_beoordelingstype_lijst&action=update&id=' .$ratingType->getIdRatingType();
                                     $urlcreate = admin_url($create);
                                     $urledit = admin_url($edit); ?>
                                     <a class="row-title" href="<?php echo $urledit; ?>">

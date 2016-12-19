@@ -10,10 +10,6 @@ if (isset($_POST['submit_nieuwe_beoordelingstype']) && !empty($_POST['submit_nie
     $ratingType->setNameRatingType($_POST['naam']);
     $ratingType->create();
     echo '<script>location.href="?page=CBS_admin_beoordelingstype_lijst";</script>';
-
-
-//    echo '<script>location.href="";</script>';
-//    exit;
 }
 
 ?>

@@ -1,5 +1,9 @@
 <?php
 
+namespace CBS\Controller;
+
+use CBS\API\APIFromBIS;
+
 
 /**
  *
@@ -32,100 +36,105 @@ class studentController
      */
     public $level;
 
+    /*
+     * @var api
+     */
+    private $api;
+
 
     /**
      *
      */
-    public function __construct():void
+    public function __construct()
     {
-        // TODO: implement here
+        $this->api = new APIFromBIS();
     }
 
     /**
      *
      */
-    public function getStudentLijst():void
+    public function getStudentLijst()
     {
         // TODO: implement here
     }
 
     /**
-     *
+     * @return void
      */
-    public function getIdStudent():void
+    public function getIdStudent()
     {
-        // TODO: implement here
+        return $this->idStudent;
     }
 
     /**
-     *
+     * @return void
      */
-    public function getVoornaam():void
+    public function getVoornaam()
     {
-        // TODO: implement here
+        return $this->voornaam;
     }
 
     /**
-     *
+     * @return void
      */
-    public function getTussenvoegsel():void
+    public function getTussenvoegsel()
     {
-        // TODO: implement here
+        return $this->tussenvoegsel;
     }
 
     /**
-     *
+     * @return void
      */
-    public function getAchternaam():void
+    public function getAchternaam()
     {
-        // TODO: implement here
+        return $this->achternaam;
     }
 
     /**
-     *
+     * @return void
      */
-    public function getLevel():void
+    public function getLevel()
     {
-        // TODO: implement here
+        return $this->level;
     }
 
     /**
-     *
+     * @param void $idStudent
      */
-    public function setIdStudent():void
+    public function setIdStudent($idStudent)
     {
-        // TODO: implement here
+        $this->idStudent = $idStudent;
     }
 
     /**
-     *
+     * @param void $voornaam
      */
-    public function setVoronaam():void
+    public function setVoornaam($voornaam)
     {
-        // TODO: implement here
+        $this->voornaam = $voornaam;
     }
 
     /**
-     *
+     * @param void $tussenvoegsel
      */
-    public function setTussenvoegsel():void
+    public function setTussenvoegsel($tussenvoegsel)
     {
-        // TODO: implement here
+        $this->tussenvoegsel = $tussenvoegsel;
     }
 
     /**
-     *
+     * @param void $achternaam
      */
-    public function setAchternaam():void
+    public function setAchternaam($achternaam)
     {
-        // TODO: implement here
+        $this->achternaam = $achternaam;
     }
 
     /**
-     *
+     * @param void $level
      */
-    public function setLevel():void
+    public function setLevel($level)
     {
-        // TODO: implement here
+        $this->level = $level;
     }
 }

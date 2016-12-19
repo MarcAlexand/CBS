@@ -2,19 +2,20 @@
 
 namespace CBS\Controller;
 
+use CBS\DAO\DbRating;
+
 /**
  *
  */
 class ratingController
 {
-
     /**
      * @var int
      */
     private $idRating;
 
     /**
-     * @var date
+     * @var string
      */
     private $dateRating;
 
@@ -23,148 +24,158 @@ class ratingController
      */
     private $noteRating;
 
-    /**
+    /*
      * @var int
      */
-    private $IdTask;
+    private $idRatingType;
 
-    /**
+    /*
      * @var int
      */
-    private $IdCoach;
+    private $idCoach;
 
-    /**
+    /*
      * @var int
      */
-    protected $IdStudent;
+    private $idStudent;
 
-    /**
-     * @var int
+    /*
+    * @var int
+    */
+    private $idTask;
+
+    /*
+     * @var db
      */
-    public $IdRatingType;
-
-
-
-
+    private $db;
 
     /**
      *
      */
     public function __construct()
     {
-        // TODO: implement here
+        $this->db = new DbRating();
+    }
+
+
+    /**
+     * @return string
+     */
+    public function getDateRating()
+    {
+        return $this->dateRating;
     }
 
     /**
-     *
+     * @return mixed
      */
-    public function getRatingList()
+    public function getIdRatingType()
     {
-        // TODO: implement here
+        return $this->idRatingType;
     }
 
     /**
-     *
+     * @return mixed
      */
-    public function getRatingById()
+    public function getIdCoach()
     {
-        // TODO: implement here
+        return $this->idCoach;
     }
 
     /**
-     *
+     * @return int
      */
-    public function getRatingId()
+    public function getIdRating()
     {
-        // TODO: implement here
+        return $this->idRating;
     }
 
     /**
-     *
+     * @return mixed
      */
-    public function getRatingDate()
+    public function getIdStudent()
     {
-        // TODO: implement here
+        return $this->idStudent;
     }
 
     /**
-     *
+     * @return string
      */
-    public function getRatingNote()
+    public function getNoteRating()
     {
-        // TODO: implement here
+        return $this->noteRating;
     }
 
     /**
-     *
+     * @return mixed
      */
-    public function getCoachList()
+    public function getIdTask()
     {
-        // TODO: implement here
+        return $this->idTask;
     }
 
     /**
-     *
+     * @param mixed $idRatingType
      */
-    public function getTaskList()
+    public function setIdRatingType($idRatingType)
     {
-        // TODO: implement here
+        $this->idRatingType = $idRatingType;
     }
 
     /**
-     *
+     * @param string $dateRating
      */
-    public function getRatingTypeList()
+    public function setDateRating($dateRating)
     {
-        // TODO: implement here
+        $this->dateRating = $dateRating;
     }
 
     /**
-     *
+     * @param mixed $idCoach
      */
-    public function getPendingTaskList()
+    public function setIdCoach($idCoach)
     {
-        // TODO: implement here
+        $this->idCoach = $idCoach;
     }
 
     /**
-     *
+     * @param int $idRating
      */
-    public function getStudentList()
+    public function setIdRating($idRating)
     {
-        // TODO: implement here
+        $this->idRating = $idRating;
     }
 
     /**
-     *
+     * @param mixed $idStudent
      */
-    public function getRatedTask()
+    public function setIdStudent($idStudent)
     {
-        // TODO: implement here
+        $this->idStudent = $idStudent;
     }
 
     /**
-     * @param void $id
+     * @param string $noteRating
      */
-    public function setRatingId($id)
+    public function setNoteRating($noteRating)
     {
-        // TODO: implement here
+        $this->noteRating = $noteRating;
     }
 
     /**
-     * @param void $date
+     * @param mixed $idTask
      */
-    public function setRatingDate($date)
+    public function setIdTask($idTask)
     {
-        // TODO: implement here
+        $this->idTask = $idTask;
     }
 
-    /**
-     * @param void $note
-     */
-    public function setRatingNote($note)
-    {
-        // TODO: implement here
+    public function setRatedTaskFromDatabase($data){
+        $this->setIdRating($data['id_beoordeling']);
+        $this->setNoteRating($data['notitie']);
+        $this->setDateRating($data['datum']);
+        $this->setIdTask($data['fk_opdracht']);
+        $this->setIdStudent($data['fk_leerling']);
     }
 
     /**
@@ -172,7 +183,12 @@ class ratingController
      */
     public function create()
     {
-        // TODO: implement here
+        $this->db->setIdRatingType($this->idRatingType);
+        $this->db->setIdCoach($this->idCoach);
+        $this->db->setIdStudent($this->idStudent);
+        $this->db->setIdTask($this->idTask);
+        $this->db->setNoteRating($this->noteRating);
+        $this->db->createDb();
     }
 
     /**
@@ -190,4 +206,43 @@ class ratingController
     {
         // TODO: implement here
     }
+
+    /**
+     *
+     */
+    public function getRatingById()
+    {
+        // TODO: implement here
+    }
+
+    /**
+     *
+     */
+    public function getRatedTaskList()
+    {
+        $results = $this->db->getRatingListDb();
+        $results = is_array($results) ? $results :[];
+        foreach ($results as $result) {
+            $rated_task_model[$result['id_beoordeling']] = new $this;
+            $rated_task_model[$result['id_beoordeling']]->setRatedTaskFromDatabase($result);
+        }
+        return $rated_task_model;
+    }
+
+    /**
+     *
+     */
+    public function getRatedTaskListByStudent($studentid)
+    {
+        $results = $this->db->getRatingListDb($studentid);
+        $results = is_array($results) ? $results :[];
+        foreach ($results as $result) {
+            $rated_task_model[$result['id_beoordeling']] = new $this;
+            $rated_task_model[$result['id_beoordeling']]->setRatedTaskFromDatabase($result);
+        }
+        return $rated_task_model;
+    }
+
+
+
 }

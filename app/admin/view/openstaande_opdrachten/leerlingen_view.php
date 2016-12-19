@@ -11,13 +11,13 @@ $leerlingen_lijst = $gemaakteOpdrachten->getGemaakteOpdrachtenByLeerlingen();
     <h1 class="wp-heading-inline">Openstaande opdrachten</h1>
     <hr class="wp-header-end">
     <form id="posts-filter" method="get">
-        <div class="alignleft actions bulkactions"><br /><br />
+        <div class="alignleft actions bulkactions">
             <?php
             $opdracht = 'admin.php?page=CBS_admin_openstaande_opdrachten&action=task';
             $urlopdracht = admin_url($opdracht); ?>
             <a class="row-title" href="<?php echo $urlopdracht; ?>">
                 Opdrachten Lijst
-            </a><br /><br /><br />
+            </a><br />
         </div>
         <div class="alignleft actions bulkactions">
 
@@ -53,12 +53,19 @@ $leerlingen_lijst = $gemaakteOpdrachten->getGemaakteOpdrachtenByLeerlingen();
                 foreach ($leerlingen_lijst as $leerling) { ?>
                     <tr id="post-2" class="iedit author-self level-0 post-2 type-page status-publish hentry">
                         <th scope="row" class="check-column">
-<!--                            <input id="cb-select-2" type="checkbox" name="post[]" value="2">-->
-                            <?php echo $leerling->getIdStudent(); ?>
+                            <?php
+                            $edit = 'admin.php?page=CBS_admin_openstaande_opdrachten&action=student-task&id='.$leerling->getIdStudent();
+                            $urledit = admin_url($edit); ?>
+                            <a class="row-title" href="<?php echo $urledit; ?>">
+                                <?php echo $leerling->getIdStudent(); ?>
+                            </a>
                         </th>
                         <td class="title column-title has-row-actions column-primary page-title" data-colname="Titel">
                             <strong>
-                                <a class="row-title" href="http://weitjerock:8888/cbs/wp-admin/post.php?post=2&amp;action=edit" aria-label="“Voorbeeld pagina” (bewerken)">
+                                <?php
+                                $edit = 'admin.php?page=CBS_admin_openstaande_opdrachten&action=student-task&id='.$leerling->getIdStudent();
+                                $urledit = admin_url($edit); ?>
+                                <a class="row-title" href="<?php echo $urledit; ?>">
                                     <?php echo $leerling->getStudentVoornaam().' '. $leerling->getStudentTussenvoegsel().' '. $leerling->getStudentAchternaam() ; ?>
                                 </a>
                             </strong>

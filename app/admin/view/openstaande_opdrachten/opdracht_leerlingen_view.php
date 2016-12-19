@@ -4,14 +4,17 @@ $current_page = 'CBS_admin_openstaande_opdrachten';
 $gemaakteOpdrachten = new \CBS\gemaakteOpdrachtenController\gemaakteOpdrachtenController();
 
 $opdrachtid = $_GET['id'];
-$opdracht_naam = $gemaakteOpdrachten->getGemaakteOpdrachtById();
+$opdracht_naam = $gemaakteOpdrachten->getGemaakteOpdrachtById($opdrachtid);
 $studenten_lijst = $gemaakteOpdrachten->getGemaakteOpdrachtLeerlingenByOpdrachtId($opdrachtid);
 
+foreach($opdracht_naam as $titleopdracht){
+    $nieuwevar = $titleopdracht->opdrachtNaam;
+}
 ?>
 
 
 <div class="wrap">
-    <h1 class="wp-heading-inline">Openstaande opdrachten - <?php
+    <h1 class="wp-heading-inline">Openstaande opdrachten - <?php echo $nieuwevar;
 
         ?></h1>
     <hr class="wp-header-end">

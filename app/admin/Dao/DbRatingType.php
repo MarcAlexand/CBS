@@ -46,9 +46,15 @@ class DbRatingType
     /**
      *
      */
-    public function updateDb()
+    public function updateDb($beoordelingstype)
     {
-        // TODO: implement here
+        var_dump($beoordelingstype);
+        global $wpdb;
+        $this->wpdb->query(
+            "UPDATE `". $wpdb->prefix."ivs_beoordelings_type`
+              SET `naam` = '". $beoordelingstype['naam']. "'
+              WHERE `". $wpdb->prefix."ivs_beoordelings_type`.`id_beoordeling_type` = '".$beoordelingstype['id_beoordeling_type']."';"
+        );
     }
 
     /**
@@ -80,9 +86,16 @@ class DbRatingType
     /**
      *
      */
-    public function getDbRatingTypeById()
+    public function getDbRatingTypeById($beoordelings_id)
     {
-        // TODO: implement here
+        global $wpdb;
+        if(!$result = $this->wpdb->get_row(
+            "SELECT * FROM `". $wpdb->prefix."ivs_beoordelings_type` WHERE `id_beoordeling_type` = $beoordelings_id",
+            ARRAY_A
+        )){
+            return false;
+        }
+        return $result;
     }
 
 
