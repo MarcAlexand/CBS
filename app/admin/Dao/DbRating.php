@@ -205,13 +205,12 @@ class DbRating
             "
             SELECT *
             FROM `". $wpdb->prefix."ivs_beoordeling`
-            WHERE 'fk_leerling' =.'$studentid'",
+            WHERE `fk_leerling` = $studentid",
             ARRAY_A
         )){
             return false;
         }
-        var_dump($results);
-        die();
+
         return $results;
     }
 
