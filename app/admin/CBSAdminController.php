@@ -122,7 +122,7 @@ class CBSAdminController
                 break;
 
             default:
-                $template = dirname( __FILE__ ) . '/view/alle_opdrachten/alle_opdrachten_overzicht.php';
+                $template = dirname( __FILE__ ) . '/view/alle_opdrachten/opdrachten_view.php';
                 break;
         }
 

@@ -153,6 +153,8 @@ class ratingController
         $this->setIdRating($data['id_beoordeling']);
         $this->setNoteRating($data['notitie']);
         $this->setDateRating($data['datum']);
+        $this->setIdRatingType($data['fk_beoordeling_type']);
+        $this->setIdCoach($data['fk_coach']);
         $this->setIdStudentTask($data['fk_leerling_opdracht']);
     }
 

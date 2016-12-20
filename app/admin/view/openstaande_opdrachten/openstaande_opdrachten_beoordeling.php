@@ -1,5 +1,5 @@
 <?php
-$gemaakteOpdrachten = new \CBS\gemaakteOpdrachtenController\gemaakteOpdrachtenController();
+$gemaakteOpdrachten = new \CBS\Controller\gemaakteOpdrachtenController();
 $beoordelingstype_object = new \CBS\Controller\ratingTypeController();
 $beoordeling = new \CBS\Controller\ratingController();
 
@@ -18,6 +18,7 @@ $opdracht = $gemaakteOpdrachten->getGemaakteOpdrachtLeerlingByOpdrachtleerlingId
 foreach($opdracht as $titleopdracht){
     $opdracht_titel = $titleopdracht->opdrachtNaam;
     $opdracht_omschrijving = $titleopdracht->getOpdrachtBeschrijving();
+    $student_naam = $titleopdracht->getStudentVoornaam() ." ". $titleopdracht->getStudentTussenvoegsel() ." ". $titleopdracht->getStudentAchternaam();
 }
 // haal lijst van beoordelingstype op
 $beoordelingstype_object_list = $beoordelingstype_object->getRatingTypeList();
@@ -37,7 +38,7 @@ if (isset($_POST['submit_nieuwe_beoordeling']) && !empty($_POST['submit_nieuwe_b
 
 
 <div class="wrap">
-    <h1 class="wp-heading-inline">Opdracht beoordelen</h1>
+    <h1 class="wp-heading-inline">Opdracht beoordelen voor <?= $student_naam; ?></h1>
     <hr>
     <form method="post">
     <table class="form-table">

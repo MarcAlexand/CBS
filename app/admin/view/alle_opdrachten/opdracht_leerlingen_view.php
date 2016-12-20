@@ -1,7 +1,7 @@
 <?php
 
-$current_page = 'CBS_admin_openstaande_opdrachten';
-$gemaakteOpdrachten = new \CBS\gemaakteOpdrachtenController\gemaakteOpdrachtenController();
+$current_page = 'CBS_admin_alle_opdrachten';
+$gemaakteOpdrachten = new \CBS\Controller\gemaakteOpdrachtenController();
 $beoordeelde_object= new \CBS\Controller\ratingController();
 
 $opdrachtid = $_GET['id'];
@@ -16,12 +16,12 @@ foreach($opdracht_naam as $titleopdracht){$opdrachttitel = $titleopdracht->opdra
 
 
 <div class="wrap">
-    <h1 class="wp-heading-inline">Openstaande opdrachten - <?php echo $opdrachttitel;?></h1>
+    <h1 class="wp-heading-inline">Alle opdrachten - <?php echo $opdrachttitel;?></h1>
     <hr class="wp-header-end">
     <form id="posts-filter" method="get">
         <div class="alignleft actions bulkactions">
             <?php
-            $student = 'admin.php?page=CBS_admin_openstaande_opdrachten&action=student';
+            $student = 'admin.php?page=CBS_admin_alle_opdrachten&action=student';
             $urlstudent = admin_url($student); ?>
             <a class="row-title" href="<?php echo $urlstudent; ?>">
                 Studenten Lijst
@@ -56,7 +56,7 @@ foreach($opdracht_naam as $titleopdracht){$opdrachttitel = $titleopdracht->opdra
                             data-colname="Titel">
                             <strong>
                                 <?php
-                                $edit = 'admin.php?page=CBS_admin_openstaande_opdrachten&action=rate&made_task=' . $student->getIdOpdrachtenLeerlingen();
+                                $edit = 'admin.php?page=CBS_admin_alle_opdrachten&action=rate&made_task=' . $student->getIdOpdrachtenLeerlingen();
                                 $urledit = admin_url($edit); ?>
                                 <a class="row-title" href="<?php echo $urledit; ?>">
                                     <?php echo $student->getIdStudent(); ?>

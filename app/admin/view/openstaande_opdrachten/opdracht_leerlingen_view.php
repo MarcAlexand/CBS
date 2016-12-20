@@ -1,7 +1,7 @@
 <?php
 
 $current_page = 'CBS_admin_openstaande_opdrachten';
-$gemaakteOpdrachten = new \CBS\gemaakteOpdrachtenController\gemaakteOpdrachtenController();
+$gemaakteOpdrachten = new \CBS\Controller\gemaakteOpdrachtenController();
 $beoordeelde_object= new \CBS\Controller\ratingController();
 
 $opdrachtid = $_GET['id'];
@@ -11,9 +11,18 @@ $niet_beoordeelde_lijst = $gemaakteOpdrachten->getGemaakteOpdrachtLeerlingenByOp
 $beoordeelde_object_lijst = $beoordeelde_object->getRatedTaskList();
 foreach($opdracht_naam as $titleopdracht){$opdrachttitel = $titleopdracht->opdrachtNaam;}
 
-var_dump($beoordeelde_object_lijst);
-var_dump($niet_beoordeelde_lijst);
+$filteredGemaakteOpdrachten = array_filter($niet_beoordeelde_lijst,
+    function($gemaakteOpdrachten) use($beoordeelde_object_lijst){
+        $heeftBeoordeling = false;
 
+        if(isset($beoordeelde_object_lijst)){
+            foreach($beoordeelde_object_lijst as $beoordeelde_object) {
+                if($heeftBeoordeling) break;
+                if($beoordeelde_object->getIdStudentTask() == $gemaakteOpdrachten->getIdOpdrachtenLeerlingen()) $heeftBeoordeling = true;
+            }
+        }
+        return !$heeftBeoordeling;
+    });
 ?>
 
 
@@ -49,8 +58,8 @@ var_dump($niet_beoordeelde_lijst);
             </thead>
             <tbody id="the-list">
             <?php
-            if(isset($niet_beoordeelde_lijst)){
-                foreach ($niet_beoordeelde_lijst as $student) {
+            if(isset($filteredGemaakteOpdrachten)){
+                foreach ($filteredGemaakteOpdrachten as $student) {
                     ?>
                     <tr id="post-2" class="iedit author-self level-0 post-2 type-page status-publish hentry">
                         <input id="cb-select-2" type="hidden" value="<?php echo $student->getIdStudent(); ?>">

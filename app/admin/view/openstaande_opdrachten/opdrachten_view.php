@@ -1,7 +1,7 @@
 <?php
 
 $current_page = 'CBS_admin_openstaande_opdrachten';
-$gemaakteOpdrachten = new \CBS\gemaakteOpdrachtenController\gemaakteOpdrachtenController();
+$gemaakteOpdrachten = new \CBS\Controller\gemaakteOpdrachtenController();
 
 $opdrachten_lijst = $gemaakteOpdrachten->getGemaakteOpdrachtenByOpdrachten();
 

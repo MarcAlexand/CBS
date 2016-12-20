@@ -1,6 +1,6 @@
 <?php
 
-namespace CBS\gemaakteOpdrachtenController;
+namespace CBS\Controller;
 
 use CBS\API\APIFromBIS;
 
@@ -315,7 +315,7 @@ class gemaakteOpdrachtenController
         $this->setOpdrachtBeschrijving($data->opdracht_omschrijving);
         $this->setOpdrachtType($data->opdracht_type);
         $this->setOpdrachtCategorie($data->opdracht_categorie);
-        $this->setOpdrachtInleverDatum($data->opdracht_inleverDatum);
+        $this->setOpdrachtInleverDatum($data->inleverDatum);
     }
 
     /**
@@ -331,7 +331,7 @@ class gemaakteOpdrachtenController
         $this->setStudentAchternaam($data->achternaam_leerling);
         $this->setStudentLevel($data->level);
         $this->setStudentLevelBeschrijving($data->beschrijving);
-        $this->setOpdrachtInleverDatum($data->opdracht_inleverDatum);
+        $this->setOpdrachtInleverDatum($data->inleverDatum);
     }
 
     /**
@@ -346,7 +346,7 @@ class gemaakteOpdrachtenController
         $this->setOpdrachtBeschrijving($data->opdracht_omschrijving);
         $this->setOpdrachtType($data->opdracht_type);
         $this->setOpdrachtCategorie($data->opdracht_categorie);
-        $this->setOpdrachtInleverDatum($data->opdracht_inleverDatum);
+        $this->setOpdrachtInleverDatum($data->inleverDatum);
     }
 
     /**
@@ -363,7 +363,7 @@ class gemaakteOpdrachtenController
         $this->setStudentVoornaam($data->voornaam_leerling);
         $this->setStudentTussenvoegsel($data->tussenvoegsel_leerling);
         $this->setStudentAchternaam($data->achternaam_leerling);
-        $this->setOpdrachtInleverDatum($data->opdracht_inleverDatum);
+        $this->setOpdrachtInleverDatum($data->inleverDatum);
         $this->setIdOpdrachtenLeerlingen($data->id_opdrachten_leerlingen);
     }
 
@@ -374,8 +374,14 @@ class gemaakteOpdrachtenController
      */
     public function setMadeTasksById($data)
     {
+        $this->setIdStudent($data->id_leerlingnummer);
+        $this->setStudentVoornaam($data->voornaam_leerling);
+        $this->setStudentTussenvoegsel($data->tussenvoegsel_leerling);
+        $this->setStudentAchternaam($data->achternaam_leerling);
         $this->setIdOpdracht($data->id_opdracht);
         $this->setOpdrachtNaam($data->opdracht_naam);
+        $this->setOpdrachtInleverDatum($data->inleverDatum);
+        $this->setIdOpdrachtenLeerlingen($data->id_opdrachten_leerlingen);
     }
 
     public function setMadeTasksByStudentId($data){
@@ -385,7 +391,8 @@ class gemaakteOpdrachtenController
         $this->setStudentAchternaam($data->achternaam_leerling);
         $this->setIdOpdracht($data->id_opdracht);
         $this->setOpdrachtNaam($data->opdracht_naam);
-        $this->setOpdrachtInleverDatum($data->opdracht_inleverDatum);
+        $this->setOpdrachtInleverDatum($data->inleverDatum);
+        $this->setIdOpdrachtenLeerlingen($data->id_opdrachten_leerlingen);
     }
 
     /**
@@ -407,13 +414,29 @@ class gemaakteOpdrachtenController
      */
     public function getGemaakteOpdrachtById($id)
     {
-        $results = $this->api->getMadeTaskId($id);
+        $results = $this->api->getMadeTaskByTaskId($id);
         foreach ($results as $result) {
             $task_model[$result->id_opdracht] = new $this;
             $task_model[$result->id_opdracht]->setMadeTasksById($result);
         }
         return $task_model;
     }
+
+    /**
+     *
+     */
+    public function getGemaakteOpdrachtInleverDatumById($id)
+    {
+        $results = $this->api->getMadeTaskById($id);
+        var_dump($results);
+        die();
+        foreach ($results as $result) {
+            $task_model[$result->id_opdracht] = new $this;
+            $task_model[$result->id_opdracht]->setMadeTasksById($result);
+        }
+        return $task_model;
+    }
+
 
     /**
      *
@@ -435,7 +458,7 @@ class gemaakteOpdrachtenController
      */
     public function getGemaakteOpdrachtLeerlingByOpdrachtleerlingId($id)
     {
-
+        var_dump($id);
         $results = $this->api->getMadeTaskStudentsByStudentTaskId($id);
         $results = is_array($results) ? $results :[];
         foreach ($results as $result) {
