@@ -425,22 +425,6 @@ class gemaakteOpdrachtenController
     /**
      *
      */
-    public function getGemaakteOpdrachtInleverDatumById($id)
-    {
-        $results = $this->api->getMadeTaskById($id);
-        var_dump($results);
-        die();
-        foreach ($results as $result) {
-            $task_model[$result->id_opdracht] = new $this;
-            $task_model[$result->id_opdracht]->setMadeTasksById($result);
-        }
-        return $task_model;
-    }
-
-
-    /**
-     *
-     */
     public function getGemaakteOpdrachtLeerlingenByOpdrachtId($id)
     {
 
@@ -458,7 +442,6 @@ class gemaakteOpdrachtenController
      */
     public function getGemaakteOpdrachtLeerlingByOpdrachtleerlingId($id)
     {
-        var_dump($id);
         $results = $this->api->getMadeTaskStudentsByStudentTaskId($id);
         $results = is_array($results) ? $results :[];
         foreach ($results as $result) {
@@ -510,7 +493,20 @@ class gemaakteOpdrachtenController
         return $tasks_model;
     }
 
-
+    /**
+     *
+     */
+    public function getGemaakteOpdrachtInleverDatumByOpdrachLeerlingId($id)
+    {
+        $results = $this->api->getMadeTaskSubmussionDateByTaskStudentId($id);
+        var_dump($results);
+        die();
+        foreach ($results as $result) {
+            $task_model[$result->id_opdracht] = new $this;
+            $task_model[$result->id_opdracht]->setMadeTasksById($result);
+        }
+        return $task_model;
+    }
 
 
 
