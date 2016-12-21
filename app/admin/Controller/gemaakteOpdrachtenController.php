@@ -332,6 +332,8 @@ class gemaakteOpdrachtenController
         $this->setStudentLevel($data->level);
         $this->setStudentLevelBeschrijving($data->beschrijving);
         $this->setOpdrachtInleverDatum($data->inleverDatum);
+        $this->setIdOpdracht($data->fk_opdracht);
+        $this->setIdOpdrachtenLeerlingen($data->id_opdrachten_leerlingen);
     }
 
     /**
@@ -499,8 +501,6 @@ class gemaakteOpdrachtenController
     public function getGemaakteOpdrachtInleverDatumByOpdrachLeerlingId($id)
     {
         $results = $this->api->getMadeTaskSubmussionDateByTaskStudentId($id);
-        var_dump($results);
-        die();
         foreach ($results as $result) {
             $task_model[$result->id_opdracht] = new $this;
             $task_model[$result->id_opdracht]->setMadeTasksById($result);

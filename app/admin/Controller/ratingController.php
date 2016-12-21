@@ -40,6 +40,11 @@ class ratingController
     private $idStudentTask;
 
     /*
+     * @var int
+     */
+    private $idTask;
+
+    /*
      * @var db
      */
     private $db;
@@ -102,6 +107,14 @@ class ratingController
     }
 
     /**
+     * @return mixed
+     */
+    public function getIdTask()
+    {
+        return $this->idTask;
+    }
+
+    /**
      * @param mixed $idRatingType
      */
     public function setIdRatingType($idRatingType)
@@ -142,6 +155,13 @@ class ratingController
     }
 
     /**
+     * @param mixed $idTask
+     */
+    public function setIdTask($idTask)
+    {
+        $this->idTask = $idTask;
+    }
+    /**
      * @param mixed $idStudentTask
      */
     public function setIdStudentTask($idStudentTask)
@@ -155,6 +175,7 @@ class ratingController
         $this->setDateRating($data['datum']);
         $this->setIdRatingType($data['fk_beoordeling_type']);
         $this->setIdCoach($data['fk_coach']);
+        $this->setIdTask($data['fk_opdracht']);
         $this->setIdStudentTask($data['fk_leerling_opdracht']);
     }
 
@@ -167,6 +188,7 @@ class ratingController
         $this->db->setIdCoach($this->idCoach);
         $this->db->setIdStudentTask($this->idStudentTask);
         $this->db->setNoteRating($this->noteRating);
+        $this->db->setIdTask($this->idTask);
         $this->db->createDb();
     }
 

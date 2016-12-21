@@ -3,6 +3,7 @@
 $current_page = 'CBS_admin_alle_opdrachten';
 $gemaakteOpdrachten = new \CBS\Controller\gemaakteOpdrachtenController();
 $beoordeelde_object = new \CBS\Controller\ratingController();
+$beoordelingsType = new \CBS\Controller\ratingTypeController();
 
 $beoordeelde_leerlingen_lijst_object = $beoordeelde_object->getRatedTaskList();
 //var_dump($beoordeelde_leerlingen_lijst_object);
@@ -41,12 +42,15 @@ $beoordeelde_leerlingen_lijst_object = $beoordeelde_object->getRatedTaskList();
                     <tr id="post-2" class="iedit author-self level-0 post-2 type-page status-publish hentry">
                         <td class="title column-title has-row-actions column-primary page-title" data-colname="Titel">
                             <strong>
-<!--                                --><?php
+                                <?php
 //                                $edit = 'admin.php?page=CBS_admin_alle_opdrachten&action=student-task&id='.$leerling->getIdStudent();
 //                                $urledit = admin_url($edit); ?>
-<!--                                <a class="row-title" href="--><?php //echo $urledit; ?><!--">-->
-<!--                                    --><?php //echo $leerling->getStudentVoornaam().' '. $leerling->getStudentTussenvoegsel().' '. $leerling->getStudentAchternaam() ; ?>
-<!--                                </a>-->
+                                <a class="row-title" href="<?php  ?>">
+                                    <?php
+                                    $student_info = $gemaakteOpdrachten->getGemaakteOpdrachtInleverDatumByOpdrachLeerlingId($leerling->getIdStudentTask());
+                                    foreach ($student_info as $student){ echo $student->getStudentVoornaam().' '. $student->getStudentTussenvoegsel().' '. $student->getStudentAchternaam();}
+                                    ?>
+                                </a>
                             </strong>
                         </td>
                         <td class="title column-title has-row-actions column-primary page-title" data-colname="Titel">
@@ -57,11 +61,15 @@ $beoordeelde_leerlingen_lijst_object = $beoordeelde_object->getRatedTaskList();
                         </td>
                         <td class="title column-title has-row-actions column-primary page-title" data-colname="Titel">
                             <?php
-                            $inleverDatum = $gemaakteOpdrachten->getGemaakteOpdrachtInleverDatumById($leerling->getIdStudentTask());
+                            $inleverDatum = $gemaakteOpdrachten->getGemaakteOpdrachtInleverDatumByOpdrachLeerlingId($leerling->getIdStudentTask());
+                            foreach ($inleverDatum as $datum){ echo $datum->getOpdrachtInleverDatum();}
                             ?>
                         </td>
                         <td class="title column-title has-row-actions column-primary page-title" data-colname="Titel">
-                            <?php echo "Cijfer"; ?>
+                            <?php
+                                $beoordelingsTypeNaam = $beoordelingsType->getRatingTypeById($leerling->getIdRatingType());
+                                echo $beoordelingsTypeNaam->getNameRatingType();
+                            ?>
                         </td>
                     </tr>
                     <?php

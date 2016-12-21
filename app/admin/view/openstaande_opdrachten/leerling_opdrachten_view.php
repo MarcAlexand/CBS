@@ -46,9 +46,6 @@ $filteredGemaakteOpdrachten = array_filter($niet_beoordeelde_lijst,
                 <!--                    <input id="cb-select-all-1" type="checkbox">-->
                 <!--                </td>-->
                 <td scope="col" id="title" class="manage-column column-date column-primary sortable desc">
-                    <span>Opdracht nummer</span>
-                </td>
-                <td scope="col" id="title" class="manage-column column-date column-primary sortable desc">
                     <span>Opdracht titel</span>
                 </td>
                 <td scope="col" id="date" class="manage-column column-date sortable asc">
@@ -62,16 +59,6 @@ $filteredGemaakteOpdrachten = array_filter($niet_beoordeelde_lijst,
                 foreach ($filteredGemaakteOpdrachten as $student) { ?>
                         <tr id="post-2" class="iedit author-self level-0 post-2 type-page status-publish hentry">
                             <input id="cb-select-2" type="hidden" value="<?php echo $student->getIdOpdracht(); ?>">
-                            <td class="title column-title has-row-actions column-primary page-title" data-colname="Titel">
-                                <strong>
-                                    <?php
-                                    $edit = 'admin.php?page=CBS_admin_openstaande_opdrachten&action=rate&made_task=' . $student->getIdOpdrachtenLeerlingen();
-                                    $urledit = admin_url($edit); ?>
-                                    <a class="row-title" href="<?php echo $urledit; ?>">
-                                        <?php echo $student->getIdStudent(); ?>
-                                    </a>
-                                </strong>
-                            </td>
                             <td class="title column-title has-row-actions column-primary page-title" data-colname="Titel">
                                 <strong>
                                     <?php
@@ -110,10 +97,7 @@ $filteredGemaakteOpdrachten = array_filter($niet_beoordeelde_lijst,
             <tfoot>
             <tr>
                 <td scope="col" id="title" class="manage-column column-date column-primary sortable desc">
-                    <span>Leerlingnummer</span>
-                </td>
-                <td scope="col" id="title" class="manage-column column-date column-primary sortable desc">
-                    <span>Naam</span>
+                    <span>Opdracht titel</span>
                 </td>
                 <td scope="col" id="date" class="manage-column column-date sortable asc">
                     <span>Inleverdatum</span>

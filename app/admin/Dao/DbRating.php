@@ -37,6 +37,11 @@ class DbRating
     */
     private $idStudentTask;
 
+    /*
+     * @var int
+     */
+    private $idTask;
+
 
     /**
      *
@@ -97,6 +102,14 @@ class DbRating
     }
 
     /**
+     * @return mixed
+     */
+    public function getIdTask()
+    {
+        return $this->idTask;
+    }
+
+    /**
      * @param mixed $idRatingType
      */
     public function setIdRatingType($idRatingType)
@@ -143,6 +156,15 @@ class DbRating
     {
         $this->idStudentTask = $idStudentTask;
     }
+
+    /**
+     * @param mixed $idTask
+     */
+    public function setIdTask($idTask)
+    {
+        $this->idTask = $idTask;
+    }
+
     /**
      *
      */
@@ -157,6 +179,7 @@ class DbRating
                     'fk_beoordeling_type' => $this->getIdRatingType(),
                     'fk_coach' => $this->getIdCoach(),
                     'fk_leerling_opdracht' =>  $this->getIdStudentTask(),
+                    'fk_opdracht' => $this->getIdTask()
                 ]
             )
         ){
