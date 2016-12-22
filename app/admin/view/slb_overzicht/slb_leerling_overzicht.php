@@ -2,6 +2,8 @@
 $gemaakteOpdrachten = new \CBS\Controller\gemaakteOpdrachtenController();
 $beoordelingstype_object = new \CBS\Controller\ratingTypeController();
 $beoordeling_object = new \CBS\Controller\ratingController();
+$level_criteria_object = new \CBS\Controller\levelCriteriaController();
+
 
 //haal gegevens van huidige gebruiker op
 global $current_user;
@@ -10,99 +12,91 @@ $coach_id = $current_user->ID;
 //Naam van huidige gebruiker
 //$coach_name = $current_user->user_firstname ." ". $current_user->user_lastname;
 //Koppel id van opdracht en leerling
-$opdracht_leerling_id = $_GET['made_task'];
+$opdracht_leerling_id = $_GET['opdracht_leerling_id'];
+$student_id = $_GET['student_id'];
 
 // haal opdracht naam op op basis van opdracht id
 $opdracht = $gemaakteOpdrachten->getGemaakteOpdrachtLeerlingByOpdrachtleerlingId($opdracht_leerling_id);
+$beoordeling_teller = $beoordeling_object->getRateCounterByStudentId($student_id);
+$voldoende_teller = $beoordeling_object->getGoodRatedGradesByGradeId($student_id);
 // haal naam uit foreach
 foreach($opdracht as $titleopdracht){
     $opdracht_titel = $titleopdracht->opdrachtNaam;
     $opdracht_omschrijving = $titleopdracht->getOpdrachtBeschrijving();
     $student_naam = $titleopdracht->getStudentVoornaam() ." ". $titleopdracht->getStudentTussenvoegsel() ." ". $titleopdracht->getStudentAchternaam();
+    $student_level = $titleopdracht->getStudentLevel() ." : ". $titleopdracht->getStudentLevelBeschrijving();
+    $level = $titleopdracht->getStudentLevel();
 }
-// haal lijst van beoordelingstype op
-$beoordelingstype_object_list = $beoordelingstype_object->getRatingTypeList();
-$beoordeling_object_lijst = $beoordeling_object->getRatedTaskList();
-// beoordeling op slaan
-if (isset($_POST['submit_nieuwe_beoordeling']) && !empty($_POST['submit_nieuwe_beoordeling'])) {
-    // Validate the input data from the form
-    // Call the function Create and sends the $form_data with it
-    $beoordeling_object->setIdRatingType($_POST['grade']);
-    $beoordeling_object->setIdCoach($_POST['coachid']);
-    $beoordeling_object->setIdStudentTask($_POST['opdracht_leerling_id']);
-    $beoordeling_object->setNoteRating($_POST['opmerking']);
-    $beoordeling_object->create();
-    echo '<script>location.href="?page=CBS_admin_alle_opdrachten";</script>';
+$level_criteria_object_lijst = $level_criteria_object->getHoeveelhedenByIdLevel($level);
+foreach ($level_criteria_object_lijst as $level_criteria){
+    $totaal_opdracht = $level_criteria->getTotaalAantalOpdracht();
+    $voldoende_opdracht = $level_criteria->getVerplichtOpdrachtAantal();
+
 }
+
 
 ?>
 
 
-<class="wrap">
-<h1 class="wp-heading-inline">Opdracht beoordelen voor <?= $student_naam; ?></h1>
-<hr>
-<?php if(empty($beoordeling_object_lijst)){?>
-    <form method="post">
-        <table class="form-table">
-            <tbody>
+<div class="wrap">
+    <h1 class="wp-heading-inline">SLB - <?php echo $student_naam; ?> overzicht</h1>
+    <hr>
+    <table class="wp-list-table widefat fixed striped pages" style="background-color: #ffffff;">
+        <tbody>
             <tr>
-                <th>
-                    <?php echo $opdracht_titel." - ".$opdracht_omschrijving; ?>
-                    <input type="hidden" name="coachid" value="<?php echo $coach_id; ?>">
-                    <input type="hidden" name="opdracht_leerling_id" value="<?php echo $opdracht_leerling_id; ?>">
-                </th>
                 <td>
-                    <div class="radio">
-                        <?php foreach($beoordelingstype_object_list as $beoordelingstype_object){ ?>
-                            <input id="<?php echo $beoordelingstype_object->getNameRatingType(); ?>" type="radio" name="grade" value="<?php echo $beoordelingstype_object->getIdRatingType(); ?>" required> 
-                            <label for="<?php echo $beoordelingstype_object->getNameRatingType(); ?>"><?php echo $beoordelingstype_object->getNameRatingType(); ?></label>
-                        <?php } ?>
-                    </div>
+                    Leerling
+                </td>
+                <td>
+                    <?php echo $student_naam; ?>
                 </td>
             </tr>
-            </tbody>
-        </table>
-        <textarea rows="4" cols="100" placeholder="Opmerking" name="opmerking"></textarea>
-        <?php submit_button( __( 'Save', 'Coach Beoordeling Systeem' ), 'primary', 'submit_nieuwe_beoordeling' ); ?>
-    </form>
-    <?php
-} else {
-    foreach($beoordeling_object_lijst as $beoordeling_object){?>
-        <form method="post">
-        <table class="form-table">
-            <tbody>
             <tr>
-                <th>
-                    <?php echo $opdracht_titel . " - " . $opdracht_omschrijving. $beoordeling_object->getIdRatingType(); ?>
-                    <input type="hidden" name="coachid" value="<?php echo $coach_id; ?>">
-                    <input type="hidden" name="opdracht_leerling_id"
-                           value="<?php echo $opdracht_leerling_id; ?>">
-                </th>
                 <td>
-                    <div class="radio">
-                        <?php foreach ($beoordelingstype_object_list as $beoordelingstype_object) {
-                            if ($beoordeling_object->getIdRatingType() == $beoordelingstype_object->getIdRatingType()){?>
-                                <input id="<?php echo $beoordelingstype_object->getNameRatingType(); ?>" type="radio"
-                                       name="grade" value="<?php echo $beoordelingstype_object->getIdRatingType(); ?>"
-                                       required checked> 
-                                <label for="<?php echo $beoordelingstype_object->getNameRatingType(); ?>"><?php echo $beoordelingstype_object->getNameRatingType(); ?></label>
-                            <?php   } else { ?>
-                                <input id="<?php echo $beoordelingstype_object->getNameRatingType(); ?>" type="radio"
-                                       name="grade" value="<?php echo $beoordelingstype_object->getIdRatingType(); ?>"
-                                       required> 
-                                <label for="<?php echo $beoordelingstype_object->getNameRatingType(); ?>"><?php echo $beoordelingstype_object->getNameRatingType(); ?></label>
-                            <?php  }
-                        } ?>
-                    </div>
+                    Leerlingnummer
+                </td>
+                <td>
+                    <?php echo $student_id; ?>
                 </td>
             </tr>
-            </tbody>
-        </table>
-        <textarea rows="4" cols="100" placeholder="<?php echo $beoordeling_object->getNoteRating(); ?>" name="opmerking"></textarea>
-        <?php submit_button(__('Bewerken', 'Coach Beoordeling Systeem'), 'primary', 'submit_update_beoordeling'); ?>
-        </form><?php
-    }
-
-} ?>
-
+            <tr>
+                <td>
+                    Level
+                </td>
+                <td>
+                    <?php echo $student_level; ?>
+                </td>
+            </tr>
+        </tbody>
+    </table><br />
+    <table class="wp-list-table widefat fixed striped pages" style="background-color: #ffffff;">
+        <tbody>
+        <tr>
+            <td>
+                Totaal gemaakte opdrachten
+            </td>
+            <td>
+                <progress max="<?php echo $totaal_opdracht ?>" value="<?php echo $beoordeling_teller->getTotal(); ?>">
+                    <div class="progress-bar">
+                        <span style="width: 80%;">Progress: 80%</span>
+                    </div>
+                </progress>
+                <?php echo $beoordeling_teller->getTotal()." / ".$totaal_opdracht ?>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Aantal verplicht voldoendes
+            </td>
+            <td>
+                <progress max="<?php echo $voldoende_opdracht ?>" value="<?php echo $voldoende_teller->getGrade(); ?>">
+                    <div class="progress-bar">
+                        <span style="width: 80%;">Progress: 80%</span>
+                    </div>
+                </progress>
+                <?php echo $voldoende_teller->getGrade() ." / ".$voldoende_opdracht; ?>
+            </td>
+        </tr>
+        </tbody>
+    </table>
 </div>

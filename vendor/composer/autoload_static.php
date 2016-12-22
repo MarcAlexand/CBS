@@ -20,9 +20,11 @@ class ComposerStaticInitdf03ee6e12bd6f46f979fef808079c3c
         'CBS\\API\\APIFromBIS' => __DIR__ . '/../..' . '/app/admin/API/APIFromBIS.php',
         'CBS\\Controller\\FormValidator' => __DIR__ . '/../..' . '/app/admin/Controller/FormValidator.php',
         'CBS\\Controller\\gemaakteOpdrachtenController' => __DIR__ . '/../..' . '/app/admin/Controller/gemaakteOpdrachtenController.php',
+        'CBS\\Controller\\levelCriteriaController' => __DIR__ . '/../..' . '/app/admin/Controller/levelCriteriaController.php',
         'CBS\\Controller\\ratingController' => __DIR__ . '/../..' . '/app/admin/Controller/ratingController.php',
         'CBS\\Controller\\ratingTypeController' => __DIR__ . '/../..' . '/app/admin/Controller/ratingTypeController.php',
         'CBS\\Controller\\studentController' => __DIR__ . '/../..' . '/app/admin/Controller/studentController.php',
+        'CBS\\DAO\\DbLevelCriteria' => __DIR__ . '/../..' . '/app/admin/Dao/DbLevelCriteria.php',
         'CBS\\DAO\\DbRating' => __DIR__ . '/../..' . '/app/admin/Dao/DbRating.php',
         'CBS\\DAO\\DbRatingType' => __DIR__ . '/../..' . '/app/admin/Dao/DbRatingType.php',
     );

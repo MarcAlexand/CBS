@@ -367,6 +367,8 @@ class gemaakteOpdrachtenController
         $this->setStudentAchternaam($data->achternaam_leerling);
         $this->setOpdrachtInleverDatum($data->inleverDatum);
         $this->setIdOpdrachtenLeerlingen($data->id_opdrachten_leerlingen);
+        $this->setStudentLevel($data->level);
+        $this->setStudentLevelBeschrijving($data->beschrijving);
     }
 
     /**

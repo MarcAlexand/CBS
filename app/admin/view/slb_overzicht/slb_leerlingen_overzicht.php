@@ -1,15 +1,11 @@
 <?php
 
-$current_page = 'CBS_admin_alle_opdrachten';
+$current_page = 'CBS_admin_slb_overzicht';
 $gemaakteOpdrachten = new \CBS\Controller\gemaakteOpdrachtenController();
 $beoordeelde_object = new \CBS\Controller\ratingController();
 $beoordelingsType = new \CBS\Controller\ratingTypeController();
 
 $beoordeelde_leerlingen_lijst_object = $beoordeelde_object->getRatedTaskList();
-//var_dump($beoordeelde_leerlingen_lijst_object);
-// get opdrachten en leerlingen op basis van FK uit beoordeelde leerlingen lijst
-// *** Functie ****
-
 
 ?>
 
@@ -43,11 +39,12 @@ $beoordeelde_leerlingen_lijst_object = $beoordeelde_object->getRatedTaskList();
                         <td class="title column-title has-row-actions column-primary page-title" data-colname="Titel">
                             <strong>
                                 <?php
-//                                $edit = 'admin.php?page=CBS_admin_alle_opdrachten&action=student-task&id='.$leerling->getIdStudent();
-//                                $urledit = admin_url($edit); ?>
-                                <a class="row-title" href="<?php  ?>">
+                                $student_info = $gemaakteOpdrachten->getGemaakteOpdrachtInleverDatumByOpdrachLeerlingId($leerling->getIdStudentTask());
+                                foreach ($student_info as $student){ $student_id =  $student->getIdStudent();}
+                                $edit = 'admin.php?page=CBS_admin_slb_overzicht&action=student&student_id='.$student_id.'&opdracht_leerling_id='.$leerling->getIdStudentTask();
+                                $urledit = admin_url($edit); ?>
+                                <a class="row-title" href="<?php echo $urledit; ?>">
                                     <?php
-                                    $student_info = $gemaakteOpdrachten->getGemaakteOpdrachtInleverDatumByOpdrachLeerlingId($leerling->getIdStudentTask());
                                     foreach ($student_info as $student){ echo $student->getStudentVoornaam().' '. $student->getStudentTussenvoegsel().' '. $student->getStudentAchternaam();}
                                     ?>
                                 </a>
@@ -81,7 +78,7 @@ $beoordeelde_leerlingen_lijst_object = $beoordeelde_object->getRatedTaskList();
                     </th>
                     <td class="title column-title has-row-actions column-primary page-title" data-colname="Titel">
                         <strong>
-                            Er zijn geen opdrachten die op beoordeling wachten
+                            Er zijn geen opdrachten beoordeeld
                         </strong>
                     </td>
                     <td class="title column-title has-row-actions column-primary page-title" data-colname="Titel">

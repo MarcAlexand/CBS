@@ -17,12 +17,14 @@ $opdracht = $gemaakteOpdrachten->getGemaakteOpdrachtLeerlingByOpdrachtleerlingId
 // haal naam uit foreach
 foreach($opdracht as $titleopdracht){
     $opdracht_titel = $titleopdracht->opdrachtNaam;
+    $opdracht_id = $titleopdracht->getIdOpdracht();
+    $student_id = $titleopdracht->getIdStudent();
     $opdracht_omschrijving = $titleopdracht->getOpdrachtBeschrijving();
     $student_naam = $titleopdracht->getStudentVoornaam() ." ". $titleopdracht->getStudentTussenvoegsel() ." ". $titleopdracht->getStudentAchternaam();
 }
 // haal lijst van beoordelingstype op
 $beoordelingstype_object_list = $beoordelingstype_object->getRatingTypeList();
-$beoordeling_object_lijst = $beoordeling_object->getRatedTaskList();
+$beoordeling_object_lijst = $beoordeling_object->getRatedTaskListByStudentId($student_id);
 // beoordeling op slaan
 if (isset($_POST['submit_nieuwe_beoordeling']) && !empty($_POST['submit_nieuwe_beoordeling'])) {
     // Validate the input data from the form
@@ -31,6 +33,8 @@ if (isset($_POST['submit_nieuwe_beoordeling']) && !empty($_POST['submit_nieuwe_b
     $beoordeling_object->setIdCoach($_POST['coachid']);
     $beoordeling_object->setIdStudentTask($_POST['opdracht_leerling_id']);
     $beoordeling_object->setNoteRating($_POST['opmerking']);
+    $beoordeling_object->setIdStudent($student_id);
+    $beoordeling_object->setIdTask($opdracht_id);
     $beoordeling_object->create();
     echo '<script>location.href="?page=CBS_admin_alle_opdrachten";</script>';
 }

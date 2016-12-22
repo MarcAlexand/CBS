@@ -45,6 +45,21 @@ class ratingController
     private $idTask;
 
     /*
+    * @var int
+    */
+    private $idStudent;
+
+    /*
+     * @var int
+     */
+    private $total;
+
+    /*
+     * @var int
+     */
+    private $grade;
+
+    /*
      * @var db
      */
     private $db;
@@ -115,6 +130,30 @@ class ratingController
     }
 
     /**
+     * @return student id
+     */
+    public function getIdStudent()
+    {
+        return $this->idStudent;
+    }
+
+    /**
+     * @return total
+     */
+    public function getTotal()
+    {
+        return $this->total;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getGrade()
+    {
+        return $this->grade;
+    }
+
+    /**
      * @param mixed $idRatingType
      */
     public function setIdRatingType($idRatingType)
@@ -161,6 +200,31 @@ class ratingController
     {
         $this->idTask = $idTask;
     }
+
+    /**
+     * @param mixed $idStudent
+     */
+    public function setIdStudent($idStudent)
+    {
+        $this->idStudent = $idStudent;
+    }
+
+    /**
+     * @param mixed $total
+     */
+    public function setTotal($total)
+    {
+        $this->total = $total;
+    }
+
+    /**
+     * @param mixed $grade
+     */
+    public function setGrade($grade)
+    {
+        $this->grade = $grade;
+    }
+
     /**
      * @param mixed $idStudentTask
      */
@@ -189,6 +253,7 @@ class ratingController
         $this->db->setIdStudentTask($this->idStudentTask);
         $this->db->setNoteRating($this->noteRating);
         $this->db->setIdTask($this->idTask);
+        $this->db->setIdStudent($this->idStudent);
         $this->db->createDb();
     }
 
@@ -233,7 +298,7 @@ class ratingController
     /**
      *
      */
-    public function getRatedTaskListById($idtask_student)
+    public function getRatedTaskListByTaskId($idtask_student)
     {
         $results = $this->db->getRatingListDb($idtask_student);
         $results = is_array($results) ? $results :[];
@@ -247,9 +312,9 @@ class ratingController
     /**
      *
      */
-    public function getRatedTaskListByStudent($studentid)
+    public function getRatedTaskListByStudentId($studentid)
     {
-        $results = $this->db->getRatingListDb($studentid);
+        $results = $this->db->getRatingListByStudentIdDb($studentid);
         $results = is_array($results) ? $results :[];
         foreach ($results as $result) {
             $rated_task_model[$result['id_beoordeling']] = new $this;
@@ -258,6 +323,20 @@ class ratingController
         return $rated_task_model;
     }
 
+    /**
+     * @return Rated Task counter
+     */
+    public function getRateCounterByStudentId($student_id)
+    {
+       return $this->db->getRateCounterByStudentIdDb($student_id);
+    }
+
+    /*
+     * return positive rate
+     */
+    public function getGoodRatedGradesByGradeId($student_id){
+        return $this->db->getGoodRatedGradesByStudentIdDb($student_id);
+    }
 
 
 }

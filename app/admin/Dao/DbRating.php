@@ -1,6 +1,8 @@
 <?php
 namespace CBS\DAO;
 
+use CBS\Controller\ratingController;
+
 /**
  *
  */
@@ -41,6 +43,16 @@ class DbRating
      * @var int
      */
     private $idTask;
+
+    /*
+     * @var int
+     */
+    private $idStudent;
+
+    /*
+     * @var int
+     */
+    private $total;
 
 
     /**
@@ -110,6 +122,21 @@ class DbRating
     }
 
     /**
+     * @return student id
+     */
+    public function getIdStudent()
+    {
+        return $this->idStudent;
+    }
+
+    /**
+     * @return total rated task
+     */
+    public function getTotal()
+    {
+        return $this->total;
+    }
+    /**
      * @param mixed $idRatingType
      */
     public function setIdRatingType($idRatingType)
@@ -166,6 +193,21 @@ class DbRating
     }
 
     /**
+     * @param mixed $idStudent
+     */
+    public function setIdStudent($idStudent)
+    {
+        $this->idStudent = $idStudent;
+    }
+
+    /**
+     * @param mixed $total
+     */
+    public function setTotal($total)
+    {
+        $this->total = $total;
+    }
+    /**
      *
      */
     public function createDb()
@@ -179,12 +221,11 @@ class DbRating
                     'fk_beoordeling_type' => $this->getIdRatingType(),
                     'fk_coach' => $this->getIdCoach(),
                     'fk_leerling_opdracht' =>  $this->getIdStudentTask(),
-                    'fk_opdracht' => $this->getIdTask()
+                    'fk_opdracht' => $this->getIdTask(),
+                    'fk_leerling' => $this->getIdStudent()
                 ]
             )
         ){
-            var_dump($this);
-            die();
             return false;
         }
 
@@ -221,7 +262,7 @@ class DbRating
     /**
      *
      */
-    public function getRatingListByIdDb($studentid)
+    public function getRatingListByStudentIdDb($studentid)
     {
         global $wpdb;
         if(!$results = $this->wpdb->get_results(
@@ -243,5 +284,50 @@ class DbRating
     public function getRatingByIdDb()
     {
         // TODO: implement here
+    }
+
+    /**
+     * @return Rate Counter By Student Id
+     */
+    public function getRateCounterByStudentIdDb($student_id)
+    {
+        global $wpdb;
+        if(!$results = $this->wpdb->get_results(
+            "
+            SELECT fk_leerling,count(*) AS total
+            FROM `". $wpdb->prefix."ivs_beoordeling`
+            WHERE `fk_leerling` = $student_id GROUP BY fk_leerling",
+            ARRAY_A
+        )){
+
+            return false;
+        }
+        foreach ($results as $idx => $row){
+            $counter =  new ratingController();
+            $counter->setIdStudent($row['fk_leerling']);
+            $counter->setTotal($row['total']);
+        }
+        return $counter;
+
+    }
+
+    public function getGoodRatedGradesByStudentIdDb($student_id){
+        global $wpdb;
+        if(!$results = $this->wpdb->get_results(
+            "
+            SELECT COUNT(wp_ivs_beoordelings_type.naam) AS grade
+            FROM `". $wpdb->prefix."ivs_beoordeling`
+            INNER JOIN wp_ivs_beoordelings_type 
+            ON ". $wpdb->prefix."ivs_beoordeling.fk_beoordeling_type=". $wpdb->prefix."ivs_beoordelings_type.id_beoordelings_type where wp_ivs_beoordeling.fk_leerling = $student_id AND wp_ivs_beoordeling.fk_beoordeling_type <> 3",
+            ARRAY_A
+        )){
+
+            return false;
+        }
+        foreach ($results as $idx => $row){
+            $grades =  new ratingController();
+            $grades->setGrade($row['grade']);
+        }
+        return $grades;
     }
 }
