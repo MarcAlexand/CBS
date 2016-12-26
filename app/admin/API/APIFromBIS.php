@@ -205,7 +205,7 @@ class APIFromBIS
      */
     public function getMadeTaskSubmussionDateByTaskStudentId($opdrachtid)
     {
-        $url = 'http://weitjerock:8888/pms/wp-json/pms/v2/made_task_submission_date_by_taks_student_id/'.$opdrachtid.'/';
+        $url = 'http://weitjerock:8888/pms/wp-json/pms/v2/made_task_submission_date_by_st/'.$opdrachtid.'/';
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);

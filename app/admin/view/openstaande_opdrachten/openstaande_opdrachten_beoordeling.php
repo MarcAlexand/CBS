@@ -14,12 +14,12 @@ $opdracht_leerling_id = $_GET['made_task'];
 
 // haal opdracht naam op op basis van opdracht id
 $opdracht = $gemaakteOpdrachten->getGemaakteOpdrachtLeerlingByOpdrachtleerlingId($opdracht_leerling_id);
-var_dump($opdracht);
 // haal naam uit foreach
 foreach($opdracht as $titleopdracht){
     $opdracht_titel = $titleopdracht->opdrachtNaam;
     $opdracht_omschrijving = $titleopdracht->getOpdrachtBeschrijving();
     $opdracht_id = $titleopdracht->getIdOpdracht();
+    $student_id = $titleopdracht->getIdStudent();
     $student_naam = $titleopdracht->getStudentVoornaam() ." ". $titleopdracht->getStudentTussenvoegsel() ." ". $titleopdracht->getStudentAchternaam();
 }
 // haal lijst van beoordelingstype op
@@ -32,6 +32,7 @@ if (isset($_POST['submit_nieuwe_beoordeling']) && !empty($_POST['submit_nieuwe_b
     $beoordeling->setIdCoach($_POST['coachid']);
     $beoordeling->setIdStudentTask($_POST['opdracht_leerling_id']);
     $beoordeling->setIdTask($_POST['opdracht_id']);
+    $beoordeling->setIdStudent($student_id);
     $beoordeling->setNoteRating($_POST['opmerking']);
     $beoordeling->create();
     echo '<script>location.href="?page=CBS_admin_openstaande_opdrachten";</script>';

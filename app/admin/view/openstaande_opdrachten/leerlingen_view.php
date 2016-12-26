@@ -2,13 +2,29 @@
 
 $current_page = 'CBS_admin_openstaande_opdrachten';
 $gemaakteOpdrachten = new \CBS\Controller\gemaakteOpdrachtenController();
+$beoordeelde_object = new \CBS\Controller\ratingController();
 
-$leerlingen_lijst = $gemaakteOpdrachten->getGemaakteOpdrachtenByLeerlingen();
+
+$niet_beoordeelde_lijst = $gemaakteOpdrachten->getGemaakteOpdrachtenByLeerlingen();
+$beoordeelde_object_lijst = $beoordeelde_object->getRatedTaskList();
+
+$filteredGemaakteOpdrachten = array_filter($niet_beoordeelde_lijst,
+    function($gemaakteOpdrachten) use($beoordeelde_object_lijst){
+        $heeftBeoordeling = false;
+        if(isset($beoordeelde_object_lijst)){
+            foreach($beoordeelde_object_lijst as $beoordeelde_object) {
+                if($heeftBeoordeling) break;
+                if($beoordeelde_object->getIdStudentTask() == $gemaakteOpdrachten->getIdOpdrachtenLeerlingen()) $heeftBeoordeling = true;
+            }
+        }
+        return !$heeftBeoordeling;
+    });
+
 ?>
 
 
 <div class="wrap">
-    <h1 class="wp-heading-inline">Openstaande opdrachten</h1>
+    <h1 class="wp-heading-inline">Leerlingen met openstaande opdrachten</h1>
     <hr class="wp-header-end">
     <form id="posts-filter" method="get">
         <div class="alignleft actions bulkactions">
@@ -49,8 +65,8 @@ $leerlingen_lijst = $gemaakteOpdrachten->getGemaakteOpdrachtenByLeerlingen();
             </thead>
             <tbody id="the-list"
             <?php
-            if(isset($leerlingen_lijst)){
-                foreach ($leerlingen_lijst as $leerling) { ?>
+            if(isset($filteredGemaakteOpdrachten)){
+                foreach ($filteredGemaakteOpdrachten as $leerling) { ?>
                     <tr id="post-2" class="iedit author-self level-0 post-2 type-page status-publish hentry">
                         <th scope="row" class="check-column">
                             <?php

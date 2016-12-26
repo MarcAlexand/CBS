@@ -324,6 +324,20 @@ class ratingController
     }
 
     /**
+     * @return DbRating
+     */
+    public function getRatedTaskListByStudentAndTaskId($studentid,$task)
+    {
+        $results = $this->db->getRatedTaskListByStudentAndTaskIdDb($studentid,$task);
+        $results = is_array($results) ? $results :[];
+        foreach ($results as $result) {
+            $rated_task_model[$result['id_beoordeling']] = new $this;
+            $rated_task_model[$result['id_beoordeling']]->setRatedTaskFromDatabase($result);
+        }
+        return $rated_task_model;
+    }
+
+    /**
      * @return Rated Task counter
      */
     public function getRateCounterByStudentId($student_id)

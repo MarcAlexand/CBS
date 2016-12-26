@@ -24,7 +24,7 @@ foreach($opdracht as $titleopdracht){
 }
 // haal lijst van beoordelingstype op
 $beoordelingstype_object_list = $beoordelingstype_object->getRatingTypeList();
-$beoordeling_object_lijst = $beoordeling_object->getRatedTaskListByStudentId($student_id);
+$beoordeling_object_lijst = $beoordeling_object->getRatedTaskListByStudentAndTaskId($student_id, $opdracht_id);
 // beoordeling op slaan
 if (isset($_POST['submit_nieuwe_beoordeling']) && !empty($_POST['submit_nieuwe_beoordeling'])) {
     // Validate the input data from the form

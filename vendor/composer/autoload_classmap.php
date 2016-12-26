@@ -13,6 +13,7 @@ return array(
     'CBS\\Controller\\ratingController' => $baseDir . '/app/admin/Controller/ratingController.php',
     'CBS\\Controller\\ratingTypeController' => $baseDir . '/app/admin/Controller/ratingTypeController.php',
     'CBS\\Controller\\studentController' => $baseDir . '/app/admin/Controller/studentController.php',
+    'CBS\\DAO\\DbApi' => $baseDir . '/app/admin/Dao/DbApi.php',
     'CBS\\DAO\\DbLevelCriteria' => $baseDir . '/app/admin/Dao/DbLevelCriteria.php',
     'CBS\\DAO\\DbRating' => $baseDir . '/app/admin/Dao/DbRating.php',
     'CBS\\DAO\\DbRatingType' => $baseDir . '/app/admin/Dao/DbRatingType.php',

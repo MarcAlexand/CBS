@@ -215,16 +215,16 @@ class DbRating
         global $wpdb;
         if(!$this->wpdb->insert(
             $wpdb->prefix.'ivs_beoordeling',
-                [
-                    'notitie' => $this->getNoteRating(),
-                    'datum' => date("Y-m-d"),
-                    'fk_beoordeling_type' => $this->getIdRatingType(),
-                    'fk_coach' => $this->getIdCoach(),
-                    'fk_leerling_opdracht' =>  $this->getIdStudentTask(),
-                    'fk_opdracht' => $this->getIdTask(),
-                    'fk_leerling' => $this->getIdStudent()
-                ]
-            )
+            [
+                'notitie' => $this->getNoteRating(),
+                'datum' => date("Y-m-d"),
+                'fk_beoordeling_type' => $this->getIdRatingType(),
+                'fk_coach' => $this->getIdCoach(),
+                'fk_leerling_opdracht' =>  $this->getIdStudentTask(),
+                'fk_opdracht' => $this->getIdTask(),
+                'fk_leerling' => $this->getIdStudent()
+            ]
+        )
         ){
             return false;
         }
@@ -278,6 +278,22 @@ class DbRating
         return $results;
     }
 
+    public function getRatedTaskListByStudentAndTaskIdDb($studentid,$task){
+        global $wpdb;
+        if(!$results = $this->wpdb->get_results(
+            "
+            SELECT *
+            FROM `". $wpdb->prefix."ivs_beoordeling`
+            WHERE `fk_opdracht` = $task
+            AND `fk_leerling`= $studentid",
+            ARRAY_A
+        )){
+            return false;
+        }
+
+        return $results;
+    }
+
     /**
      *
      */
@@ -315,10 +331,10 @@ class DbRating
         global $wpdb;
         if(!$results = $this->wpdb->get_results(
             "
-            SELECT COUNT(wp_ivs_beoordelings_type.naam) AS grade
+            SELECT COUNT('.$wpdb->prefix.'ivs_beoordelings_type.naam) AS grade
             FROM `". $wpdb->prefix."ivs_beoordeling`
-            INNER JOIN wp_ivs_beoordelings_type 
-            ON ". $wpdb->prefix."ivs_beoordeling.fk_beoordeling_type=". $wpdb->prefix."ivs_beoordelings_type.id_beoordelings_type where wp_ivs_beoordeling.fk_leerling = $student_id AND wp_ivs_beoordeling.fk_beoordeling_type <> 3",
+            INNER JOIN '.$wpdb->prefix.'ivs_beoordelings_type 
+            ON ". $wpdb->prefix."ivs_beoordeling.fk_beoordeling_type=". $wpdb->prefix."ivs_beoordelings_type.id_beoordelings_type where '.$wpdb->prefix.'ivs_beoordeling.fk_leerling = $student_id AND '.$wpdb->prefix.'ivs_beoordeling.fk_beoordeling_type <> 3",
             ARRAY_A
         )){
 

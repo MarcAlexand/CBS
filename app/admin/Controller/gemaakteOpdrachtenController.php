@@ -502,6 +502,7 @@ class gemaakteOpdrachtenController
      */
     public function getGemaakteOpdrachtInleverDatumByOpdrachLeerlingId($id)
     {
+
         $results = $this->api->getMadeTaskSubmussionDateByTaskStudentId($id);
         foreach ($results as $result) {
             $task_model[$result->id_opdracht] = new $this;

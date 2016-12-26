@@ -48,7 +48,6 @@ class DbRatingType
      */
     public function updateDb($beoordelingstype)
     {
-        var_dump($beoordelingstype);
         global $wpdb;
         $this->wpdb->query(
             "UPDATE `". $wpdb->prefix."ivs_beoordelings_type`

@@ -13,6 +13,9 @@ foreach($opdracht_naam as $titleopdracht){$opdrachttitel = $titleopdracht->opdra
 
 $filteredGemaakteOpdrachten = array_filter($niet_beoordeelde_lijst,
     function($gemaakteOpdrachten) use($beoordeelde_object_lijst){
+//        $message = "Er zijn geen leerling die meer beoordeeld moeten worden voor deze opdracht";
+//        echo "<script type='text/javascript'>alert('$message');window.location.href='admin.php?page=CBS_admin_openstaande_opdrachten';
+//    </script>";
         $heeftBeoordeling = false;
 
         if(isset($beoordeelde_object_lijst)){

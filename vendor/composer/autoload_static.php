@@ -24,6 +24,7 @@ class ComposerStaticInitdf03ee6e12bd6f46f979fef808079c3c
         'CBS\\Controller\\ratingController' => __DIR__ . '/../..' . '/app/admin/Controller/ratingController.php',
         'CBS\\Controller\\ratingTypeController' => __DIR__ . '/../..' . '/app/admin/Controller/ratingTypeController.php',
         'CBS\\Controller\\studentController' => __DIR__ . '/../..' . '/app/admin/Controller/studentController.php',
+        'CBS\\DAO\\DbApi' => __DIR__ . '/../..' . '/app/admin/Dao/DbApi.php',
         'CBS\\DAO\\DbLevelCriteria' => __DIR__ . '/../..' . '/app/admin/Dao/DbLevelCriteria.php',
         'CBS\\DAO\\DbRating' => __DIR__ . '/../..' . '/app/admin/Dao/DbRating.php',
         'CBS\\DAO\\DbRatingType' => __DIR__ . '/../..' . '/app/admin/Dao/DbRatingType.php',
