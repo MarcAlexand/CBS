@@ -38,7 +38,7 @@ class FormValidator
     public function ratingTypeEditFormValidator()
     {
         $validate = [
-            'id_beoordeling_type' => FILTER_SANITIZE_NUMBER_INT,
+            'id_beoordelings_type' => FILTER_SANITIZE_NUMBER_INT,
             'naam' => FILTER_SANITIZE_STRING,
         ];
 

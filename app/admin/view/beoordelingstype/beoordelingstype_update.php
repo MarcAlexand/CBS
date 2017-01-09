@@ -27,7 +27,7 @@ if (isset($_POST['submit_beoordelingstype_aanpassen']) && !empty($_POST['submit_
                         <label for="coach"><?php _e( 'Beoordelingstype', 'Backend IVS' ); ?></label>
                     </th>
                     <td>
-                        <input type="hidden" name="id_beoordeling_type" value="<?php echo $beoordelingstype_object->getIdRatingType();  ?>"/>
+                        <input type="hidden" name="id_beoordelings_type" value="<?php echo $beoordelingstype_object->getIdRatingType();  ?>"/>
                         <input type="text" name="naam" value="<?php echo $beoordelingstype_object->getNameRatingType();  ?>" placeholder="<?php echo $beoordelingstype_object->getNameRatingType();  ?>" required="required" style="width: 40%;" />
                     </td>
                 </tr>

@@ -55,7 +55,7 @@ foreach($niet_beoordeelde_lijst as $studentnaam){
                                 $edit = 'admin.php?page=CBS_admin_alle_opdrachten&action=rate&made_task=' . $student->getIdOpdrachtenLeerlingen();
                                 $urledit = admin_url($edit); ?>
                                 <a class="row-title" href="<?php echo $urledit; ?>">
-                                    <?php echo $student->getIdStudent(); ?>
+                                    <?php echo $student->getIdOpdracht(); ?>
                                 </a>
                             </strong>
                         </td>

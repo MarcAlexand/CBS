@@ -61,6 +61,7 @@ class DbRatingType
      */
     public function deleteDb($beoordelings_type)
     {
+
         global $wpdb;
         $this->wpdb->query(
             "DELETE FROM `". $wpdb->prefix."ivs_beoordelings_type`

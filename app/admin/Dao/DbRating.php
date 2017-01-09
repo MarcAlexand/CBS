@@ -331,13 +331,13 @@ class DbRating
         global $wpdb;
         if(!$results = $this->wpdb->get_results(
             "
-            SELECT COUNT('.$wpdb->prefix.'ivs_beoordelings_type.naam) AS grade
+            SELECT COUNT(".$wpdb->prefix."ivs_beoordelings_type.naam) AS grade
             FROM `". $wpdb->prefix."ivs_beoordeling`
-            INNER JOIN '.$wpdb->prefix.'ivs_beoordelings_type 
-            ON ". $wpdb->prefix."ivs_beoordeling.fk_beoordeling_type=". $wpdb->prefix."ivs_beoordelings_type.id_beoordelings_type where '.$wpdb->prefix.'ivs_beoordeling.fk_leerling = $student_id AND '.$wpdb->prefix.'ivs_beoordeling.fk_beoordeling_type <> 3",
+            INNER JOIN ".$wpdb->prefix."ivs_beoordelings_type 
+            ON ". $wpdb->prefix."ivs_beoordeling.fk_beoordeling_type=". $wpdb->prefix."ivs_beoordelings_type.id_beoordelings_type where ".$wpdb->prefix."ivs_beoordeling.fk_leerling = $student_id AND ".$wpdb->prefix."ivs_beoordeling.fk_beoordeling_type <> 3",
             ARRAY_A
         )){
-
+            var_dump($this);
             return false;
         }
         foreach ($results as $idx => $row){
