@@ -7,14 +7,18 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'CBS\\API\\APIFromBIS' => $baseDir . '/app/admin/API/APIFromBIS.php',
+    'CBS\\Controller\\AuthKeyController' => $baseDir . '/app/admin/Controller/AuthKeyController.php',
     'CBS\\Controller\\FormValidator' => $baseDir . '/app/admin/Controller/FormValidator.php',
+    'CBS\\Controller\\LinkController' => $baseDir . '/app/admin/Controller/LinkController.php',
     'CBS\\Controller\\gemaakteOpdrachtenController' => $baseDir . '/app/admin/Controller/gemaakteOpdrachtenController.php',
     'CBS\\Controller\\levelCriteriaController' => $baseDir . '/app/admin/Controller/levelCriteriaController.php',
     'CBS\\Controller\\ratingController' => $baseDir . '/app/admin/Controller/ratingController.php',
     'CBS\\Controller\\ratingTypeController' => $baseDir . '/app/admin/Controller/ratingTypeController.php',
     'CBS\\Controller\\studentController' => $baseDir . '/app/admin/Controller/studentController.php',
     'CBS\\DAO\\DbApi' => $baseDir . '/app/admin/Dao/DbApi.php',
+    'CBS\\DAO\\DbAuthKey' => $baseDir . '/app/admin/Dao/DbAuthKey.php',
     'CBS\\DAO\\DbLevelCriteria' => $baseDir . '/app/admin/Dao/DbLevelCriteria.php',
+    'CBS\\DAO\\DbLink' => $baseDir . '/app/admin/Dao/DbLink.php',
     'CBS\\DAO\\DbRating' => $baseDir . '/app/admin/Dao/DbRating.php',
     'CBS\\DAO\\DbRatingType' => $baseDir . '/app/admin/Dao/DbRatingType.php',
 );

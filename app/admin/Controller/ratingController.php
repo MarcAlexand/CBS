@@ -244,6 +244,15 @@ class ratingController
     }
 
     /**
+     * @return DbRating
+     */
+    public function updateRatedTask($data){
+        $this->setIdRating($data['beoordeling_id']);
+        $this->setNoteRating($data['opmerking']);
+        $this->setIdRatingType($data['grade']);
+    }
+
+    /**
      *
      */
     public function create()
@@ -260,9 +269,10 @@ class ratingController
     /**
      *
      */
-    public function update()
+    public function update($data)
     {
-        // TODO: implement here
+        $this->updateRatedTask($data);
+        $this->db->updateDb($data);
     }
 
     /**
@@ -276,9 +286,11 @@ class ratingController
     /**
      *
      */
-    public function getRatingById()
+    public function getRatingById($id)
     {
-        // TODO: implement here
+        $data = $this->db->getRatingByIdDb($id);
+        $this->setRatedTaskFromDatabase($data);
+        return $this;
     }
 
     /**

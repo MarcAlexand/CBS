@@ -95,9 +95,8 @@ function get_rated_tasks(){
     global $wpdb;
     $results = $wpdb->get_results(
         'SELECT * from '.$wpdb->prefix.'ivs_beoordeling 
-          INNER JOIN wp_users ON wp_users.ID='.$wpdb->prefix.'ivs_beoordeling.fk_coach
+          INNER JOIN '.$wpdb->prefix.'users ON '.$wpdb->prefix.'users.ID='.$wpdb->prefix.'ivs_beoordeling.fk_coach
           INNER JOIN '.$wpdb->prefix.'ivs_beoordelings_type ON '.$wpdb->prefix.'ivs_beoordelings_type.id_beoordelings_type ='.$wpdb->prefix.'ivs_beoordeling.fk_beoordeling_type', OBJECT );
-
     return $results;
 }
 
@@ -106,7 +105,7 @@ function get_rated_tasks_by_task(){
     global $wpdb;
     $results = $wpdb->get_results(
         'SELECT * from '.$wpdb->prefix.'ivs_beoordeling 
-          INNER JOIN '.$wpdb->prefix.'users ON wp_users.ID='.$wpdb->prefix.'ivs_beoordeling.fk_coach
+          INNER JOIN '.$wpdb->prefix.'users ON '.$wpdb->prefix.'users.ID='.$wpdb->prefix.'ivs_beoordeling.fk_coach
           INNER JOIN '.$wpdb->prefix.'ivs_beoordelings_type ON '.$wpdb->prefix.'ivs_beoordelings_type.id_beoordelings_type ='.$wpdb->prefix.'ivs_beoordeling.fk_beoordeling_type', OBJECT );
 
     return $results;
@@ -117,7 +116,7 @@ function get_rated_task_by_student_id($data){
     global $wpdb;
     $results = $wpdb->get_results(
         'SELECT * from '.$wpdb->prefix.'ivs_beoordeling 
-        INNER JOIN '.$wpdb->prefix.'users ON wp_users.ID='.$wpdb->prefix.'ivs_beoordeling.fk_coach
+        INNER JOIN '.$wpdb->prefix.'users ON '.$wpdb->prefix.'users.ID='.$wpdb->prefix.'ivs_beoordeling.fk_coach
 WHERE '.$wpdb->prefix.'ivs_beoordeling.fk_leerling ='.$data['id'].'', OBJECT );
 
     return $results;
@@ -142,7 +141,6 @@ function get_rated_task_by_rate_id($data){
   INNER JOIN '.$wpdb->prefix.'users ON '.$wpdb->prefix.'users.ID='.$wpdb->prefix.'ivs_beoordeling.fk_coach
   INNER JOIN '.$wpdb->prefix.'ivs_beoordelings_type ON '.$wpdb->prefix.'ivs_beoordelings_type.id_beoordelings_type='.$wpdb->prefix.'ivs_beoordeling.fk_beoordeling_type
 WHERE '.$wpdb->prefix.'ivs_beoordeling.id_beoordeling ='.$data['id'].'', OBJECT );
-
     return $results;
 }
 
@@ -156,7 +154,7 @@ add_action( 'rest_api_init', function () {
 } );
 
 add_action( 'rest_api_init', function () {
-    register_rest_route( 'cbs/v2', '/get_rated_task_by_student_id/(?P<id>\d+)',
+    register_rest_route( 'cbs/v2', '/get_rated_task_by_student_id/(?P<id>\d+)/',
         array(
             'methods' => 'GET',
             'callback' => 'get_rated_task_by_student_id',
@@ -165,7 +163,7 @@ add_action( 'rest_api_init', function () {
 } );
 
 add_action( 'rest_api_init', function () {
-    register_rest_route( 'cbs/v2', '/get_rated_task_by_task_id/(?P<id>\d+)',
+    register_rest_route( 'cbs/v2', '/get_rated_task_by_task_id/(?P<id>\d+)/',
         array(
             'methods' => 'GET',
             'callback' => 'get_rated_task_by_task_id',
@@ -174,7 +172,7 @@ add_action( 'rest_api_init', function () {
 } );
 
 add_action( 'rest_api_init', function () {
-    register_rest_route( 'cbs/v2', '/get_rated_task_by_rate_id/(?P<id>\d+)',
+    register_rest_route( 'cbs/v2', '/get_rated_task_by_rate_id/(?P<id>\d+)/',
         array(
             'methods' => 'GET',
             'callback' => 'get_rated_task_by_rate_id',

@@ -65,6 +65,24 @@ class CBSAdminController
             array('CBSAdminController', 'beoordelingstype_lijst')
         );
 
+        add_submenu_page(
+            'CBS-admin',
+            __('URL API Link Lijst', 'CBS'),
+            __('URL API Link Lijst', 'CBS'),
+            'manage_options',
+            'CBS_admin_url_api_link_lijst',
+            array('CBSAdminController', 'api_url_lijst')
+        );
+
+        add_submenu_page(
+            'CBS-admin',
+            __('Authenticatie Sleutel Lijst', 'CBS'),
+            __('Authenticatie Sleutel Lijst', 'CBS'),
+            'manage_options',
+            'CBS_admin_url_authSleutel',
+            array('CBSAdminController', 'authSleutel')
+        );
+
     }
 
     public function openstaande_opdrachten() {
@@ -175,6 +193,55 @@ class CBSAdminController
         }
     }
 
+    public function api_url_lijst(){
+        $action = isset( $_GET['action'] ) ? $_GET['action'] : 'list';
+        $id     = isset( $_GET['id'] ) ? intval( $_GET['id'] ) : 0;
+
+        switch ($action) {
+            case 'create':
+                $template = dirname( __FILE__ ) . '/view/api_url_lijst/url_api_link_create.php';
+                break;
+            case 'update':
+                $template = dirname( __FILE__ ) . '/view/api_url_lijst/url_api_link_update.php';
+                break;
+            case 'delete':
+                $template = dirname( __FILE__ ) . '/view/api_url_lijst/url_api_link_delete.php';
+                break;
+
+            default:
+                $template = dirname( __FILE__ ) . '/view/api_url_lijst/url_api_link_overzicht.php';
+                break;
+        }
+
+        if ( file_exists( $template ) ) {
+            include $template;
+        }
+    }
+
+    public function authSleutel(){
+        $action = isset( $_GET['action'] ) ? $_GET['action'] : 'list';
+        $id     = isset( $_GET['id'] ) ? intval( $_GET['id'] ) : 0;
+
+        switch ($action) {
+            case 'create':
+                $template = dirname( __FILE__ ) . '/view/authSleutel/authSleutel_create.php';
+                break;
+            case 'update':
+                $template = dirname( __FILE__ ) . '/view/authSleutel/authSleutelupdate.php';
+                break;
+            case 'delete':
+                $template = dirname( __FILE__ ) . '/view/authSleutel/authSleuteldelete.php';
+                break;
+
+            default:
+                $template = dirname( __FILE__ ) . '/view/authSleutel/authSleuteloverzicht.php';
+                break;
+        }
+
+        if ( file_exists( $template ) ) {
+            include $template;
+        }
+    }
 
     static function adminMenuPage(){
 

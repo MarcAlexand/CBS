@@ -5,8 +5,9 @@ namespace CBS\API;
 /**
  *
  */
-class APIFromBIS
-{
+class APIFromBIS {
+
+    private $Url = 'Backend IVS';
     /*
      * @var api
      */
@@ -221,6 +222,20 @@ class APIFromBIS
         curl_close($ch);
         $result = json_decode($result);
         return $result;
+    }
+
+    /**
+     *
+     */
+    public function getUrlLinkById(){
+
+    }
+
+    /**
+     *
+     */
+    public function getUrlLinkByName(){
+
     }
 
 }

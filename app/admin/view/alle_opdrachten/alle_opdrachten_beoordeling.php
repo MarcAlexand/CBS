@@ -2,6 +2,8 @@
 $gemaakteOpdrachten = new \CBS\Controller\gemaakteOpdrachtenController();
 $beoordelingstype_object = new \CBS\Controller\ratingTypeController();
 $beoordeling_object = new \CBS\Controller\ratingController();
+$form_validator_object = new \CBS\Controller\FormValidator();
+
 
 //haal gegevens van huidige gebruiker op
 global $current_user;
@@ -11,6 +13,10 @@ $coach_id = $current_user->ID;
 //$coach_name = $current_user->user_firstname ." ". $current_user->user_lastname;
 //Koppel id van opdracht en leerling
 $opdracht_leerling_id = $_GET['made_task'];
+$ratedTask = $beoordeling_object->getRatedTaskListByTaskId($opdracht_leerling_id);
+foreach ($ratedTask as $ratedData){
+    $ratedId = $ratedData->getIdRating();
+}
 
 // haal opdracht naam op op basis van opdracht id
 $opdracht = $gemaakteOpdrachten->getGemaakteOpdrachtLeerlingByOpdrachtleerlingId($opdracht_leerling_id);
@@ -26,16 +32,9 @@ foreach($opdracht as $titleopdracht){
 $beoordelingstype_object_list = $beoordelingstype_object->getRatingTypeList();
 $beoordeling_object_lijst = $beoordeling_object->getRatedTaskListByStudentAndTaskId($student_id, $opdracht_id);
 // beoordeling op slaan
-if (isset($_POST['submit_nieuwe_beoordeling']) && !empty($_POST['submit_nieuwe_beoordeling'])) {
-    // Validate the input data from the form
-    // Call the function Create and sends the $form_data with it
-    $beoordeling_object->setIdRatingType($_POST['grade']);
-    $beoordeling_object->setIdCoach($_POST['coachid']);
-    $beoordeling_object->setIdStudentTask($_POST['opdracht_leerling_id']);
-    $beoordeling_object->setNoteRating($_POST['opmerking']);
-    $beoordeling_object->setIdStudent($student_id);
-    $beoordeling_object->setIdTask($opdracht_id);
-    $beoordeling_object->create();
+if (isset($_POST['submit_update_beoordeling']) && !empty($_POST['submit_update_beoordeling'])) {
+    $beoordeling_form_data = $form_validator_object->ratingEditFormValidator();
+    $beoordeling_object->update($beoordeling_form_data);
     echo '<script>location.href="?page=CBS_admin_alle_opdrachten";</script>';
 }
 
@@ -77,10 +76,10 @@ if (isset($_POST['submit_nieuwe_beoordeling']) && !empty($_POST['submit_nieuwe_b
                     <tbody>
                     <tr>
                         <th>
-                            <?php echo $opdracht_titel . " - " . $opdracht_omschrijving. $beoordeling_object->getIdRatingType(); ?>
+                            <?php echo $opdracht_titel . " - " . $opdracht_omschrijving; ?>
                             <input type="hidden" name="coachid" value="<?php echo $coach_id; ?>">
-                            <input type="hidden" name="opdracht_leerling_id"
-                                   value="<?php echo $opdracht_leerling_id; ?>">
+                            <input type="hidden" name="opdracht_leerling_id" value="<?php echo $opdracht_leerling_id; ?>">
+                            <input type="hidden" name="beoordeling_id" value="<?php echo $ratedId; ?>">
                         </th>
                         <td>
                             <div class="radio">

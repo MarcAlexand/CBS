@@ -235,9 +235,15 @@ class DbRating
     /**
      *
      */
-    public function updateDb()
+    public function updateDb($data)
     {
-        // TODO: implement here
+        global $wpdb;
+        $this->wpdb->query(
+            "UPDATE `". $wpdb->prefix."ivs_beoordeling`
+              SET `fk_beoordeling_type` = '". $data['grade']. "',
+                  `notitie` = '". $data['opmerking']."'
+              WHERE `". $wpdb->prefix."ivs_beoordeling`.`id_beoordeling` = ".$data['beoordeling_id'].";"
+        );
     }
 
     /**
@@ -297,9 +303,16 @@ class DbRating
     /**
      *
      */
-    public function getRatingByIdDb()
+    public function getRatingByIdDb($id)
     {
-        // TODO: implement here
+        global $wpdb;
+        if(!$result = $this->wpdb->get_row(
+            "SELECT * FROM `". $wpdb->prefix."ivs_beoordeling` WHERE `id_beoordeling` = $id",
+            ARRAY_A
+        )){
+            return false;
+        }
+        return $result;
     }
 
     /**

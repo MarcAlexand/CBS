@@ -18,14 +18,18 @@ class ComposerStaticInitdf03ee6e12bd6f46f979fef808079c3c
 
     public static $classMap = array (
         'CBS\\API\\APIFromBIS' => __DIR__ . '/../..' . '/app/admin/API/APIFromBIS.php',
+        'CBS\\Controller\\AuthKeyController' => __DIR__ . '/../..' . '/app/admin/Controller/AuthKeyController.php',
         'CBS\\Controller\\FormValidator' => __DIR__ . '/../..' . '/app/admin/Controller/FormValidator.php',
+        'CBS\\Controller\\LinkController' => __DIR__ . '/../..' . '/app/admin/Controller/LinkController.php',
         'CBS\\Controller\\gemaakteOpdrachtenController' => __DIR__ . '/../..' . '/app/admin/Controller/gemaakteOpdrachtenController.php',
         'CBS\\Controller\\levelCriteriaController' => __DIR__ . '/../..' . '/app/admin/Controller/levelCriteriaController.php',
         'CBS\\Controller\\ratingController' => __DIR__ . '/../..' . '/app/admin/Controller/ratingController.php',
         'CBS\\Controller\\ratingTypeController' => __DIR__ . '/../..' . '/app/admin/Controller/ratingTypeController.php',
         'CBS\\Controller\\studentController' => __DIR__ . '/../..' . '/app/admin/Controller/studentController.php',
         'CBS\\DAO\\DbApi' => __DIR__ . '/../..' . '/app/admin/Dao/DbApi.php',
+        'CBS\\DAO\\DbAuthKey' => __DIR__ . '/../..' . '/app/admin/Dao/DbAuthKey.php',
         'CBS\\DAO\\DbLevelCriteria' => __DIR__ . '/../..' . '/app/admin/Dao/DbLevelCriteria.php',
+        'CBS\\DAO\\DbLink' => __DIR__ . '/../..' . '/app/admin/Dao/DbLink.php',
         'CBS\\DAO\\DbRating' => __DIR__ . '/../..' . '/app/admin/Dao/DbRating.php',
         'CBS\\DAO\\DbRatingType' => __DIR__ . '/../..' . '/app/admin/Dao/DbRatingType.php',
     );

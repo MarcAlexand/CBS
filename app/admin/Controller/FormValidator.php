@@ -64,4 +64,93 @@ class FormValidator
 
         return filter_input_array(INPUT_POST, $validate);
     }
+
+    /**
+     * This validator is only for the address form.
+     * Validate every value from the $_POST.
+     *
+     * @return mixed
+     */
+    public function ratingEditFormValidator()
+    {
+        $validate = [
+            'coachid' => FILTER_SANITIZE_NUMBER_INT,
+            'opdracht_leerling_id' => FILTER_SANITIZE_NUMBER_INT,
+            'beoordeling_id' => FILTER_SANITIZE_NUMBER_INT,
+            'grade' => FILTER_SANITIZE_NUMBER_INT,
+            'opmerking' => FILTER_SANITIZE_STRING
+        ];
+
+        return filter_input_array(INPUT_POST, $validate);
+    }
+
+    /**
+     * This validator is only for the address form.
+     * Validate every value from the $_POST.
+     *
+     * @return mixed
+     */
+    public function apiCreateFormValidator()
+    {
+        $validate = [
+            'api_link_naam' => FILTER_SANITIZE_STRING,
+            'api_link_url' => FILTER_SANITIZE_STRING,
+            'api_link_sleutel' => FILTER_SANITIZE_STRING
+        ];
+
+        return filter_input_array(INPUT_POST, $validate);
+    }
+
+    /**
+     * This validator is only for the address form.
+     * Validate every value from the $_POST.
+     *
+     * @return mixed
+     */
+    public function apiEditFormValidator()
+    {
+        $validate = [
+            'id_api_link' => FILTER_SANITIZE_NUMBER_INT,
+            'api_link_naam' => FILTER_SANITIZE_STRING,
+            'api_link_url' => FILTER_SANITIZE_STRING,
+            'api_link_sleutel' => FILTER_SANITIZE_STRING
+        ];
+
+        return filter_input_array(INPUT_POST, $validate);
+    }
+
+    /**
+     * This validator is only for the address form.
+     * Validate every value from the $_POST.
+     *
+     * @return mixed
+     */
+    public function authSleutelCreateFormValidator()
+    {
+        $validate = [
+            'auth_sleutel_naam' => FILTER_SANITIZE_STRING,
+            'auth_sleutel_systeem_afkorting' => FILTER_SANITIZE_STRING,
+            'auth_sleutel_code' => FILTER_SANITIZE_STRING
+        ];
+
+        return filter_input_array(INPUT_POST, $validate);
+    }
+
+    /**
+     * This validator is only for the address form.
+     * Validate every value from the $_POST.
+     *
+     * @return mixed
+     */
+    public function authSleutelEditFormValidator()
+    {
+        $validate = [
+            'id_auth_sleutel' => FILTER_SANITIZE_NUMBER_INT,
+            'auth_sleutel_naam' => FILTER_SANITIZE_STRING,
+            'auth_sleutel_systeem_afkorting' => FILTER_SANITIZE_STRING,
+            'auth_sleutel_code' => FILTER_SANITIZE_STRING
+        ];
+
+        return filter_input_array(INPUT_POST, $validate);
+    }
 }
