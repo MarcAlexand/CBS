@@ -170,9 +170,16 @@ class DbAuthKey
     /**
      *
      */
-    public function getUrlLinkByName()
+    public function getAuthKeyByKey($key)
     {
-        // TODO: implement here
+        global $wpdb;
+        if(!$result = $this->wpdb->get_row(
+            "SELECT `auth_sleutel_code` FROM `". $wpdb->prefix."ivs_auth_sleutel` WHERE `auth_sleutel_code` = '$key'",
+            ARRAY_A
+        )){
+            return false;
+        }
+        return $result;
     }
 
     /**

@@ -45,8 +45,8 @@ if (isset($_POST['submit_nieuwe_beoordeling']) && !empty($_POST['submit_nieuwe_b
     <h1 class="wp-heading-inline">Opdracht beoordelen voor <?= $student_naam; ?></h1>
     <hr>
     <form method="post">
-    <table class="form-table">
-        <tbody>
+        <table class="form-table">
+            <tbody>
             <tr>
                 <th>
                     <?php echo $opdracht_titel." - ".$opdracht_omschrijving; ?>
@@ -57,15 +57,15 @@ if (isset($_POST['submit_nieuwe_beoordeling']) && !empty($_POST['submit_nieuwe_b
                 <td>
                     <div class="radio">
                         <?php foreach($beoordelingstype_object_list as $beoordelings_object){ ?>
-                        <input id="<?php echo $beoordelings_object->getNameRatingType(); ?>" type="radio" name="grade" value="<?php echo $beoordelings_object->getIdRatingType(); ?>" required> 
-                        <label for="<?php echo $beoordelings_object->getNameRatingType(); ?>"><?php echo $beoordelings_object->getNameRatingType(); ?></label>
+                            <input id="<?php echo $beoordelings_object->getNameRatingType(); ?>" type="radio" name="grade" value="<?php echo $beoordelings_object->getIdRatingType(); ?>" required> 
+                            <label for="<?php echo $beoordelings_object->getNameRatingType(); ?>"><?php echo $beoordelings_object->getNameRatingType(); ?></label>
                         <?php } ?>
                     </div>
                 </td>
             </tr>
-        </tbody>
-    </table>
-    <textarea rows="4" cols="100" placeholder="Opmerking" name="opmerking"></textarea>
-    <?php submit_button( __( 'Save', 'Coach Beoordeling Systeem' ), 'primary', 'submit_nieuwe_beoordeling' ); ?>
+            </tbody>
+        </table>
+        <textarea rows="4" cols="100" placeholder="Opmerking" name="opmerking"></textarea>
+        <?php submit_button( __( 'Save', 'Coach Beoordeling Systeem' ), 'primary', 'submit_nieuwe_beoordeling' ); ?>
     </form>
 </div>

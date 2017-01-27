@@ -2,6 +2,7 @@
 
 namespace CBS\Controller;
 
+use CBS\API\APIFromBIS;
 use CBS\DAO\DbLevelCriteria;
 
 /**
@@ -45,6 +46,14 @@ class levelCriteriaController
      */
     private $db;
 
+    /*
+     * @var mixed
+     */
+    private $api;
+
+    private $id;
+    private $number;
+    private $description;
 
     /**
      *
@@ -52,6 +61,7 @@ class levelCriteriaController
     public function __construct()
     {
         $this->db = new DbLevelCriteria();
+        $this->api = new APIFromBIS();
     }
 
 
@@ -104,6 +114,30 @@ class levelCriteriaController
     }
 
     /**
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getNumber()
+    {
+        return $this->number;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
      * @param void $idLevelCriteria
      */
     public function setIdLevelCriteria($idLevelCriteria)
@@ -145,6 +179,30 @@ class levelCriteriaController
     }
 
     /**
+     * @param mixed $id
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
+
+    /**
+     * @param mixed $number
+     */
+    public function setNumber($number)
+    {
+        $this->number = $number;
+    }
+
+    /**
+     * @param mixed $description
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+    }
+
+    /**
      * @param void $verplicht_opdracht_aantal
      */
     public function setVerplichtOpdrachtAantal($verplicht_opdracht_aantal)
@@ -159,6 +217,13 @@ class levelCriteriaController
         $this->setTotaalAantalOpdracht($data['totaal_opdracht']);
         $this->setVerplichtOpdrachtAantal($data['type_opdracht_aantal']);
         $this->setTechnischOpdrachtAantal($data['categorie_opdracht_aantal']);
+    }
+
+    public function setLevelDataFromDatabase($data)
+    {
+        $this->setId($data->id_level);
+        $this->setNumber($data->level);
+        $this->setDescription($data->beschrijving);
     }
 
     /**
@@ -179,30 +244,69 @@ class levelCriteriaController
      */
     public function create()
     {
-        // TODO: implement here
+        $this->db->setFkLevel($this->fkLevel);
+        $this->db->setOmschrijving($this->omschrijving);
+        $this->db->setTotaalAantalOpdracht($this->totaal_aantal_opdracht);
+        $this->db->setVerplichtOpdrachtAantal($this->verplicht_opdracht_aantal);
+        $this->db->setTechnischOpdrachtAantal($this->technisch_opdracht_aantal);
+        $this->db->dbCreate();
     }
 
     /**
      *
      */
-    public function update()
+    public function update($leveltype)
     {
-        // TODO: implement here
+        $this->db->dbUpdate($leveltype);
+    }
+
+
+    /**
+     *
+     */
+    public function delete($level_type)
+    {
+        $this->db->dbDelete($level_type);
     }
 
     /**
      *
      */
-    public function read()
+    public function getLevelList()
     {
-        // TODO: implement here
+        $results = $this->db->getDbLevelList();
+        $results = is_array($results) ? $results : [];
+        foreach($results as $result){
+            $level_model[$result['id_level_criteria']] = new $this;
+            $level_model[$result['id_level_criteria']]->setLevelCriteria($result);
+        }
+        return $level_model;
     }
 
     /**
      *
      */
-    public function delete()
+    public function getLevelDataList()
     {
-        // TODO: implement here
+        $results = $this->api->getLevelList();
+        $results = is_array($results) ? $results : [];
+        foreach($results as $result){
+            $level_model[$result->id_level] = new $this;
+            $level_model[$result->id_level]->setLevelDataFromDatabase($result);
+        }
+        return $level_model;
     }
+
+    /**
+     *
+     */
+    public function getLevelById($level_id)
+    {
+        $data = $this->db->getLevelById($level_id);
+        $this->setLevelCriteria($data);
+        return $this;
+    }
+
+
+
 }

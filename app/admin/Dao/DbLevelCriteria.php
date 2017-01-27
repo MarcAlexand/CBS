@@ -163,30 +163,84 @@ class DbLevelCriteria
      */
     public function dbCreate()
     {
-        // TODO: implement here
+        global $wpdb;
+        if(!$this->wpdb->insert(
+            $wpdb->prefix.'ivs_level_criteria',
+            [
+                'fk_level' => $this->getFkLevel(),
+                'omschrijving' => $this->getOmschrijving(),
+                'totaal_opdracht' => $this->getTotaalAantalOpdracht(),
+                'type_opdracht_aantal' => $this->getVerplichtOpdrachtAantal(),
+                'categorie_opdracht_aantal' => $this->getTechnischOpdrachtAantal()
+            ]
+        )
+        ){
+            return false;
+        }
+        return $this->wpdb->insert_id;
     }
 
     /**
      *
      */
-    public function dbUpdate()
+    public function dbUpdate($leveltype)
     {
-        // TODO: implement here
+
+        global $wpdb;
+        $this->wpdb->query(
+            "UPDATE `". $wpdb->prefix."ivs_level_criteria`
+              SET 
+              `totaal_opdracht` = '". $leveltype['totaal_opdracht']."',
+              `type_opdracht_aantal` = '".$leveltype['type_opdracht_aantal']."',
+              `categorie_opdracht_aantal` = '".$leveltype['categorie_opdracht_aantal']."'
+              WHERE `". $wpdb->prefix."ivs_level_criteria`.`id_level_criteria` = '".$leveltype['id_level_criteria']."';"
+        );
     }
 
     /**
      *
      */
-    public function dbRead()
+    public function dbDelete($level_type)
     {
-        // TODO: implement here
+        global $wpdb;
+        $this->wpdb->query(
+            "DELETE FROM `". $wpdb->prefix."ivs_level_criteria`
+                WHERE id_level_criteria = $level_type
+                 "
+        );
     }
 
     /**
      *
      */
-    public function dbDelete()
+    public function getDbLevelList()
     {
-        // TODO: implement here
+        global $wpdb;
+        if(!$results = $this->wpdb->get_results(
+            "
+            SELECT *
+            FROM `". $wpdb->prefix."ivs_level_criteria`
+            ",
+            ARRAY_A
+        )){
+            return false;
+        }
+        return $results;
     }
+
+    /**
+     *
+     */
+    public function getLevelById($id)
+    {
+        global $wpdb;
+        if(!$result = $this->wpdb->get_row(
+            "SELECT * FROM `". $wpdb->prefix."ivs_level_criteria` WHERE `id_level_criteria` = $id",
+            ARRAY_A
+        )){
+            return false;
+        }
+        return $result;
+    }
+
 }

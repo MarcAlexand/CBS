@@ -9,24 +9,29 @@ class DbLink
 {
 
     /**
-     * @var void
+     * @var int
      */
-    public $id;
+    private $id;
 
     /**
-     * @var void
+     * @var string
      */
-    public $name;
+    private $name;
+
+    /*
+     * @var string
+     */
+    private $shortcode;
 
     /**
-     * @var void
+     * @var string
      */
-    public $url;
+    private $url;
 
     /**
-     * @var void
+     * @var string
      */
-    public $authKey;
+    private $authKey;
 
 
 
@@ -40,7 +45,7 @@ class DbLink
     }
 
     /**
-     * @return void
+     * @return int
      */
     public function getId()
     {
@@ -48,7 +53,7 @@ class DbLink
     }
 
     /**
-     * @param void $id
+     * @param int $id
      */
     public function setId($id)
     {
@@ -56,7 +61,7 @@ class DbLink
     }
 
     /**
-     * @return void
+     * @return string
      */
     public function getName()
     {
@@ -64,7 +69,7 @@ class DbLink
     }
 
     /**
-     * @param void $name
+     * @param string $name
      */
     public function setName($name)
     {
@@ -72,7 +77,7 @@ class DbLink
     }
 
     /**
-     * @return void
+     * @return string
      */
     public function getUrl()
     {
@@ -80,7 +85,7 @@ class DbLink
     }
 
     /**
-     * @param void $url
+     * @param string $url
      */
     public function setUrl($url)
     {
@@ -88,7 +93,7 @@ class DbLink
     }
 
     /**
-     * @return void
+     * @return string
      */
     public function getAuthKey()
     {
@@ -96,13 +101,28 @@ class DbLink
     }
 
     /**
-     * @param void $authKey
+     * @param string $authKey
      */
     public function setAuthKey($authKey)
     {
         $this->authKey = $authKey;
     }
 
+    /**
+     * @return string
+     */
+    public function getShortcode()
+    {
+        return $this->shortcode;
+    }
+
+    /**
+     * @param string $shortcode
+     */
+    public function setShortcode($shortcode)
+    {
+        $this->shortcode = $shortcode;
+    }
 
     /**
      *
@@ -110,24 +130,19 @@ class DbLink
     public function createDB()
     {
         global $wpdb;
-        if(!$this->wpdb->insert(
-            $wpdb->prefix.'ivs_api_link',
-            ['api_link_naam' => $this->getName(),
-            'api_link_url' => $this->getUrl(),
-            'api_link_sleutel' => $this->getAuthKey()]
-        )
+        if(
+            !$this->wpdb->insert(
+                $wpdb->prefix.'ivs_api_link',[
+                    'api_link_naam' => $this->getName(),
+                    'api_link_systeem_afkorting' => $this->getShortcode(),
+                    'api_link_url' => $this->getUrl(),
+                    'api_link_sleutel' => $this->getAuthKey()
+                ]
+            )
         ){
             return false;
         }
         return $this->wpdb->insert_id;
-    }
-
-    /**
-     *
-     */
-    public function read()
-    {
-        // TODO: implement here
     }
 
     /**
@@ -139,6 +154,7 @@ class DbLink
         $this->wpdb->query(
             "UPDATE `". $wpdb->prefix."ivs_api_link`
               SET `api_link_naam` = '". $data['api_link_naam']. "',
+                  `api_link_systeem_afkorting` = '". $data['api_link_systeem_afkorting']."',
                   `api_link_url` = '". $data['api_link_url']."',
                   `api_link_sleutel` = '".$data['api_link_sleutel']."'
               WHERE `". $wpdb->prefix."ivs_api_link`.`id_api_link` = ".$data['id_api_link'].";"
@@ -176,9 +192,16 @@ class DbLink
     /**
      *
      */
-    public function getUrlLinkByName()
+    public function getUrlLinkByName($info)
     {
-        // TODO: implement here
+        global $wpdb;
+        if(!$result = $this->wpdb->get_row(
+            "SELECT * FROM `". $wpdb->prefix."ivs_api_link` WHERE `api_link_naam` = '$info'",
+            ARRAY_A
+        )){
+            return false;
+        }
+        return $result;
     }
 
     /**

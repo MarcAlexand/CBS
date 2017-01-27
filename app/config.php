@@ -21,6 +21,7 @@ define('CBS_PLUGIN_DIR', untrailingslashit(dirname(CBS_PLUGIN)));
 define('CBS_APP_DIR', CBS_PLUGIN_DIR.'/app/');
 define('CBS_ADMIN_DIR', CBS_APP_DIR.'admin/');
 define('CBS_CONTROLLER_DIR', CBS_ADMIN_DIR.'controller/');
+define('CBS_ENCRYPTION_DIR', CBS_ADMIN_DIR.'encryption/');
 define('CBS_DAO_DIR', CBS_MODEL_DIR.'dao/');
 define('CBS_VIEW_DIR', CBS_ADMIN_DIR.'view/');
 define('CBS_FILES_DIR', CBS_PLUGIN_DIR.'/files/');

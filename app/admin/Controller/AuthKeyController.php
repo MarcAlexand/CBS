@@ -158,14 +158,6 @@ class AuthKeyController{
     /**
      *
      */
-    public function read()
-    {
-        // TODO: implement here
-    }
-
-    /**
-     *
-     */
     public function update($data)
     {
         $this->setAuthKeyToDatabase($data);
@@ -193,9 +185,10 @@ class AuthKeyController{
     /**
      *
      */
-    public function getUrlLinkByName()
+    public function getAuthKeyByKey($key)
     {
-        // TODO: implement here
+        $data = $this->db->getAuthKeyByKey($key);
+        return $data;
     }
 
     /**

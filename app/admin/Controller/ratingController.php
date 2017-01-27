@@ -278,14 +278,6 @@ class ratingController
     /**
      *
      */
-    public function setRatedTask()
-    {
-        // TODO: implement here
-    }
-
-    /**
-     *
-     */
     public function getRatingById($id)
     {
         $data = $this->db->getRatingByIdDb($id);

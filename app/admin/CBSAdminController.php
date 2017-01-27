@@ -67,6 +67,15 @@ class CBSAdminController
 
         add_submenu_page(
             'CBS-admin',
+            __('Level Criteria Lijst', 'CBS'),
+            __('Level Criteria Lijst', 'CBS'),
+            'manage_options',
+            'CBS_admin_level_lijst',
+            array('CBSAdminController', 'level')
+        );
+
+        add_submenu_page(
+            'CBS-admin',
             __('URL API Link Lijst', 'CBS'),
             __('URL API Link Lijst', 'CBS'),
             'manage_options',
@@ -79,7 +88,7 @@ class CBSAdminController
             __('Authenticatie Sleutel Lijst', 'CBS'),
             __('Authenticatie Sleutel Lijst', 'CBS'),
             'manage_options',
-            'CBS_admin_url_authSleutel',
+            'CBS_admin_url_authSleutel_lijst',
             array('CBSAdminController', 'authSleutel')
         );
 
@@ -224,7 +233,7 @@ class CBSAdminController
 
         switch ($action) {
             case 'create':
-                $template = dirname( __FILE__ ) . '/view/authSleutel/authSleutel_create.php';
+                $template = dirname( __FILE__ ) . '/view/authSleutel/authSleutelcreate.php';
                 break;
             case 'update':
                 $template = dirname( __FILE__ ) . '/view/authSleutel/authSleutelupdate.php';
@@ -235,6 +244,29 @@ class CBSAdminController
 
             default:
                 $template = dirname( __FILE__ ) . '/view/authSleutel/authSleuteloverzicht.php';
+                break;
+        }
+
+        if ( file_exists( $template ) ) {
+            include $template;
+        }
+    }    public function level(){
+        $action = isset( $_GET['action'] ) ? $_GET['action'] : 'list';
+        $id     = isset( $_GET['id'] ) ? intval( $_GET['id'] ) : 0;
+
+        switch ($action) {
+            case 'create':
+                $template = dirname( __FILE__ ) . '/view/level/level_criteria_create.php';
+                break;
+            case 'update':
+                $template = dirname( __FILE__ ) . '/view/level/level_criteria_update.php';
+                break;
+            case 'delete':
+                $template = dirname( __FILE__ ) . '/view/level/level_criteria_delete.php';
+                break;
+
+            default:
+                $template = dirname( __FILE__ ) . '/view/level/level_criteria_overzicht.php';
                 break;
         }
 

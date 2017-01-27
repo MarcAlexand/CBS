@@ -420,6 +420,7 @@ class gemaakteOpdrachtenController
     {
         $results = $this->api->getMadeTaskByTaskId($id);
         foreach ($results as $result) {
+
             $task_model[$result->id_opdracht] = new $this;
             $task_model[$result->id_opdracht]->setMadeTasksById($result);
         }

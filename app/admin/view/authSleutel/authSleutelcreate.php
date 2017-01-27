@@ -20,7 +20,7 @@ if (isset($_POST['submit_auth_sleutel_nieuw']) && !empty($_POST['submit_auth_sle
     function randomPassword() {
         chars = "abcdefghijklmnopqrs!@#$%^&*()_+=-{}[]:;'<,>.?/tuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
         pass = "";
-        for(x=0;x<12;x++){
+        for(x=0;x<32;x++){
             i = Math.floor(Math.random() * 62);
             pass += chars.charAt(i);
         }

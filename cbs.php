@@ -23,6 +23,9 @@ define ( 'CBS_PLUGIN', __FILE__ );
 include_once plugin_dir_path( __FILE__).'app/config.php';
 include_once CBS_PLUGIN_DIR.'/vendor/autoload.php';
 
+include_once plugin_dir_path( __FILE__).'app/admin/Controller/AuthKeyController.php';
+include_once plugin_dir_path( __FILE__).'app/admin/Encryption/AES.php';
+
 class CBS{
 
     public function __construct()
@@ -55,41 +58,114 @@ class CBS{
 
 $cbs = new CBS();
 
-function get_rated_tasks_aboard() {
-    $students = get_rated_tasks();
-    if(empty($students)){
-        return null;
+function validate_authorization_key($key){
+    if(!isset($key)){
+        // No key found return bad request
+        header("HTTP/1.1 400 Bad Request");
+        exit;
     }
-    return $students;
+    // Validate key
+    $auth_key_object = new \CBS\Controller\AuthKeyController();
+    $validKey = $auth_key_object->getAuthKeyByKey($key);
+    if(!isset($validKey)) return false;
+    return true;
 }
 
 
-function get_rated_task_by_student_id_abroad($data) {
-    $students = get_rated_task_by_student_id($data);
-    if(empty($students)){
+function get_rated_tasks_abroad() {
+    $headers = apache_request_headers();
+    $authorizationKey = $headers['Authorization'];
+    $isValidkey = validate_authorization_key($authorizationKey);
+
+    if(!$isValidkey){
+        // Invalid key return 401 unauthorzied
+        header("HTTP/1.1 401 Unauthorized");
+        exit;
+    }
+    $task_info = get_rated_tasks();
+    if(empty($task_info)){
         return null;
     }
-    return $students;
+    $task_info = serialize($task_info);
+    $blockSize = 256;
+    $aes = new \CBS\Encryption\AES($task_info, $authorizationKey, $blockSize);
+    $enc = $aes->encrypt();
+    $aes->setData($enc);
+
+    return $enc;
+}
+function get_rated_task_by_student_id_abroad($data) {
+    $headers = apache_request_headers();
+    $authorizationKey = $headers['Authorization'];
+    $isValidkey = validate_authorization_key($authorizationKey);
+
+    if(!$isValidkey){
+        // Invalid key return 401 unauthorzied
+        header("HTTP/1.1 401 Unauthorized");
+        exit;
+    }
+    $data = array('id'=>$data['id']);
+    $task_info = get_rated_task_by_student_id($data);
+    if(empty($task_info)){
+        return null;
+    }
+    $task_info = serialize($task_info);
+    $blockSize = 256;
+    $aes = new \CBS\Encryption\AES($task_info, $authorizationKey, $blockSize);
+    $enc = $aes->encrypt();
+    $aes->setData($enc);
+
+    return $enc;
 }
 
 function get_rated_task_by_task_id_abroad($data) {
-    $students = get_rated_task_by_task_id($data);
-    if(empty($students)){
+    $headers = apache_request_headers();
+    $authorizationKey = $headers['Authorization'];
+    $isValidkey = validate_authorization_key($authorizationKey);
+
+    if(!$isValidkey){
+        // Invalid key return 401 unauthorzied
+        header("HTTP/1.1 401 Unauthorized");
+        exit;
+    }
+    $data = array('id'=>$data['id']);
+    $task_info = get_rated_task_by_task_id($data);
+    if(empty($task_info)){
         return null;
     }
-    return $students;
+    $task_info = serialize($task_info);
+    $blockSize = 256;
+    $aes = new \CBS\Encryption\AES($task_info, $authorizationKey, $blockSize);
+    $enc = $aes->encrypt();
+    $aes->setData($enc);
+
+    return $enc;
 }
-
-
 function get_rated_task_by_rate_id_abroad($data) {
-    $students = get_rated_task_by_rate_id($data);
-    if(empty($students)){
+    $headers = apache_request_headers();
+    $authorizationKey = $headers['Authorization'];
+    $isValidkey = validate_authorization_key($authorizationKey);
+
+    if(!$isValidkey){
+        // Invalid key return 401 unauthorzied
+        header("HTTP/1.1 401 Unauthorized");
+        exit;
+    }
+    $data = array('id'=>$data['id']);
+    $task_info = get_rated_task_by_rate_id($data);
+    if(empty($task_info)){
         return null;
     }
-    return $students;
+    $task_info = serialize($task_info);
+    $blockSize = 256;
+    $aes = new \CBS\Encryption\AES($task_info, $authorizationKey, $blockSize);
+    $enc = $aes->encrypt();
+    $aes->setData($enc);
+
+    return $enc;
 }
 
-
+// SQL Query
 function get_rated_tasks(){
 
     global $wpdb;
@@ -99,18 +175,6 @@ function get_rated_tasks(){
           INNER JOIN '.$wpdb->prefix.'ivs_beoordelings_type ON '.$wpdb->prefix.'ivs_beoordelings_type.id_beoordelings_type ='.$wpdb->prefix.'ivs_beoordeling.fk_beoordeling_type', OBJECT );
     return $results;
 }
-
-function get_rated_tasks_by_task(){
-
-    global $wpdb;
-    $results = $wpdb->get_results(
-        'SELECT * from '.$wpdb->prefix.'ivs_beoordeling 
-          INNER JOIN '.$wpdb->prefix.'users ON '.$wpdb->prefix.'users.ID='.$wpdb->prefix.'ivs_beoordeling.fk_coach
-          INNER JOIN '.$wpdb->prefix.'ivs_beoordelings_type ON '.$wpdb->prefix.'ivs_beoordelings_type.id_beoordelings_type ='.$wpdb->prefix.'ivs_beoordeling.fk_beoordeling_type', OBJECT );
-
-    return $results;
-}
-
 function get_rated_task_by_student_id($data){
 
     global $wpdb;
@@ -121,7 +185,6 @@ WHERE '.$wpdb->prefix.'ivs_beoordeling.fk_leerling ='.$data['id'].'', OBJECT );
 
     return $results;
 }
-
 function get_rated_task_by_task_id($data){
 
     global $wpdb;
@@ -132,7 +195,6 @@ WHERE '.$wpdb->prefix.'ivs_beoordeling.fk_opdracht ='.$data['id'].'', OBJECT );
 
     return $results;
 }
-
 function get_rated_task_by_rate_id($data){
 
     global $wpdb;
@@ -148,34 +210,31 @@ add_action( 'rest_api_init', function () {
     register_rest_route( 'cbs/v2', '/get_rated_tasks/',
         array(
             'methods' => 'GET',
-            'callback' => 'get_rated_tasks',
+            'callback' => 'get_rated_tasks_abroad',
         )
     );
 } );
-
 add_action( 'rest_api_init', function () {
     register_rest_route( 'cbs/v2', '/get_rated_task_by_student_id/(?P<id>\d+)/',
         array(
-            'methods' => 'GET',
-            'callback' => 'get_rated_task_by_student_id',
+            'methods' => \WP_REST_Server::READABLE,
+            'callback' => 'get_rated_task_by_student_id_abroad',
         )
     );
 } );
-
 add_action( 'rest_api_init', function () {
     register_rest_route( 'cbs/v2', '/get_rated_task_by_task_id/(?P<id>\d+)/',
         array(
             'methods' => 'GET',
-            'callback' => 'get_rated_task_by_task_id',
+            'callback' => 'get_rated_task_by_task_id_abroad',
         )
     );
 } );
-
 add_action( 'rest_api_init', function () {
     register_rest_route( 'cbs/v2', '/get_rated_task_by_rate_id/(?P<id>\d+)/',
         array(
-            'methods' => 'GET',
-            'callback' => 'get_rated_task_by_rate_id',
+            'methods' => \WP_REST_Server::READABLE,
+            'callback' => 'get_rated_task_by_rate_id_abroad',
         )
     );
 } );

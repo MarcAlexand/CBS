@@ -33,6 +33,14 @@ if (isset($_POST['submit_api_link_url_aanpassen']) && !empty($_POST['submit_api_
                 </tr>
                 <tr class="row-klas">
                     <th scope="row">
+                        <label for="coach"><?php _e( 'Shortcode', 'Coach Beoordeling Systeem' ); ?></label>
+                    </th>
+                    <td>
+                        <input type="text" name="api_link_systeem_afkorting" value="<?php echo $api_url_link_object->getShortcode();  ?>" placeholder="<?php echo $api_url_link_object->getShortcode();  ?>" required="required" style="width: 40%;" />
+                    </td>
+                </tr>
+                <tr class="row-klas">
+                    <th scope="row">
                         <label for="coach"><?php _e( 'Api Url link', 'Coach Beoordeling Systeem' ); ?></label>
                     </th>
                     <td>

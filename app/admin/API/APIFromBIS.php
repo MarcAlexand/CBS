@@ -2,6 +2,8 @@
 
 namespace CBS\API;
 
+use CBS\Controller\LinkController;
+
 /**
  *
  */
@@ -13,84 +15,157 @@ class APIFromBIS {
      */
     public $apiFrom;
 
+    public function __construct()
+    {
+        $this->ApiUrl = new LinkController();
+    }
 
     public function getMadeTaskList(){
-        $curl = curl_init();
-        curl_setopt_array($curl, array(
-            CURLOPT_RETURNTRANSFER => 1,
-            CURLOPT_URL => 'http://weitjerock:8888/pms/wp-json/pms/v2/made_tasks',
-            CURLOPT_SSL_VERIFYPEER => TRUE,
-            CURLOPT_SSL_VERIFYHOST => 2, // Use 2, 1 is deprecated
-            CURLOPT_FAILONERROR => true,
-            CURLOPT_ENCODING => '', // Do not send Accept-Encoding header to API, due to CRIME / BREACH attacks (see Mollie API)
-//        CURLOPT_POSTFIELDS => $customer_details
-        ));
+        $this->ApiUrl->getUrlLinkByName('Backend IVS');
+        $url = $this->ApiUrl->getUrl(). 'made_tasks/';
+        $key = $this->ApiUrl->getAuthKey();
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
+        curl_setopt($ch, CURLOPT_FAILONERROR, true);
+        curl_setopt($ch, CURLOPT_ENCODING, '');
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Authorization: '. $key));
 
+        $result = curl_exec($ch);
+        $info = curl_getinfo($ch);
+        var_dump($url);
         // Execute and catch curl errors
-        if(($result = curl_exec($curl)) === false){
-            throw new Exception('Curl error: ' . curl_error($curl) . ' - ' . curl_errno($curl));
+        if($result == false){
+            throw new Exception('Curl error: ' . curl_error($ch) . ' - ' . curl_errno($ch));
         }
-        curl_close($curl);
-        $result = json_decode($result);
-        return $result;
+        if($httpcode = $info['http_code'] != 200) {
+            switch($httpcode){
+                case 400:
+                    // Bad request missing authorzation key
+                    break;
+                case 401:
+                    // Unauthorized invalid authorization key
+                    break;
+                default:
+                    // Something different
+                    break;
+            }
+            // if response not equals 200 OK
+            // notify user
+        }
+        $key = $this->ApiUrl->getAuthKey();
+        $decoded = rtrim(mcrypt_decrypt(MCRYPT_RIJNDAEL_256, md5($key), base64_decode($result), MCRYPT_MODE_CBC, md5(md5($key))), "\0");
+        $result_array = unserialize($decoded);
+        curl_close($ch);
+        return $result_array;
     }
 
-    /**
-     * @return mixed
-     */
     public function getMadeTaskByStudents()
     {
-        $curl = curl_init();
-        curl_setopt_array($curl, array(
-            CURLOPT_RETURNTRANSFER => 1,
-            CURLOPT_URL => 'http://weitjerock:8888/pms/wp-json/pms/v2/made_tasks_by_students',
-            CURLOPT_SSL_VERIFYPEER => TRUE,
-            CURLOPT_SSL_VERIFYHOST => 2, // Use 2, 1 is deprecated
-            CURLOPT_FAILONERROR => true,
-            CURLOPT_ENCODING => '', // Do not send Accept-Encoding header to API, due to CRIME / BREACH attacks (see Mollie API)
-//        CURLOPT_POSTFIELDS => $customer_details
-        ));
+        $this->ApiUrl->getUrlLinkByName('Backend IVS');
 
+        $url = $this->ApiUrl->getUrl(). 'made_tasks_by_students/';
+        $key = $this->ApiUrl->getAuthKey();
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
+        curl_setopt($ch, CURLOPT_FAILONERROR, true);
+        curl_setopt($ch, CURLOPT_ENCODING, '');
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Authorization: '. $key));
+
+        $result = curl_exec($ch);
+
+        $info = curl_getinfo($ch);
         // Execute and catch curl errors
-        if(($result = curl_exec($curl)) === false){
-            throw new Exception('Curl error: ' . curl_error($curl) . ' - ' . curl_errno($curl));
+        if($result == false){
+            throw new Exception('Curl error: ' . curl_error($ch) . ' - ' . curl_errno($ch));
         }
-        curl_close($curl);
-        $result = json_decode($result);
-        return $result;
+
+        if($httpcode = $info['http_code'] != 200) {
+            switch($httpcode){
+                case 400:
+                    // Bad request missing authorzation key
+                    break;
+                case 401:
+                    // Unauthorized invalid authorization key
+                    break;
+                default:
+                    // Something different
+                    break;
+            }
+            // if response not equals 200 OK
+            // notify user
+        }
+        $key = $this->ApiUrl->getAuthKey();
+        $decoded = rtrim(mcrypt_decrypt(MCRYPT_RIJNDAEL_256, md5($key), base64_decode($result), MCRYPT_MODE_CBC, md5(md5($key))), "\0");
+        $result_array = unserialize($decoded);
+
+        curl_close($ch);
+
+        return $result_array;
     }
 
-    /**
-     * @return mixed
-     */
     public function getMadeTaskByTasks()
     {
-        $curl = curl_init();
-        curl_setopt_array($curl, array(
-            CURLOPT_RETURNTRANSFER => 1,
-            CURLOPT_URL => 'http://weitjerock:8888/pms/wp-json/pms/v2/made_tasks_by_tasks',
-            CURLOPT_SSL_VERIFYPEER => TRUE,
-            CURLOPT_SSL_VERIFYHOST => 2, // Use 2, 1 is deprecated
-            CURLOPT_FAILONERROR => true,
-            CURLOPT_ENCODING => '', // Do not send Accept-Encoding header to API, due to CRIME / BREACH attacks (see Mollie API)
-//        CURLOPT_POSTFIELDS => $customer_details
-        ));
+        $this->ApiUrl->getUrlLinkByName('Backend IVS');
 
+        $url = $this->ApiUrl->getUrl(). 'made_tasks_by_tasks';
+        $key = $this->ApiUrl->getAuthKey();
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
+        curl_setopt($ch, CURLOPT_FAILONERROR, true);
+        curl_setopt($ch, CURLOPT_ENCODING, '');
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Authorization: '. $key));
+
+        $result = curl_exec($ch);
+
+        $info = curl_getinfo($ch);
         // Execute and catch curl errors
-        if(($result = curl_exec($curl)) === false){
-            throw new Exception('Curl error: ' . curl_error($curl) . ' - ' . curl_errno($curl));
+        if($result == false){
+            throw new Exception('Curl error: ' . curl_error($ch) . ' - ' . curl_errno($ch));
         }
-        curl_close($curl);
-        $result = json_decode($result);
-        return $result;
+
+        if($httpcode = $info['http_code'] != 200) {
+            switch($httpcode){
+                case 400:
+                    // Bad request missing authorzation key
+                    break;
+                case 401:
+                    // Unauthorized invalid authorization key
+                    break;
+                default:
+                    // Something different
+                    break;
+            }
+            // if response not equals 200 OK
+            // notify user
+        }
+
+        $key = $this->ApiUrl->getAuthKey();
+        $decoded = rtrim(mcrypt_decrypt(MCRYPT_RIJNDAEL_256, md5($key), base64_decode($result), MCRYPT_MODE_CBC, md5(md5($key))), "\0");
+        $result_array = unserialize($decoded);
+        curl_close($ch);
+
+        return $result_array;
+
     }
 
-    /**
-     * @return mixed
-     */
     public function getMadeTaskStudentsByTasksId($opdrachtid)
     {
-        $url = 'http://weitjerock:8888/pms/wp-json/pms/v2/made_tasks_students_by_taskid/'.$opdrachtid.'/';
+        $this->ApiUrl->getUrlLinkByName('Backend IVS');
+
+        $url = $this->ApiUrl->getUrl(). 'made_tasks_students_by_taskid/'.$opdrachtid.'/';
+        $key = $this->ApiUrl->getAuthKey();
+
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
@@ -98,23 +173,47 @@ class APIFromBIS {
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
         curl_setopt($ch, CURLOPT_FAILONERROR, true);
         curl_setopt($ch, CURLOPT_ENCODING, '');
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Authorization: '. $key));
 
+        $result = curl_exec($ch);
+
+        $info = curl_getinfo($ch);
         // Execute and catch curl errors
-        if(($result = curl_exec($ch)) === false){
+        if($result == false){
             throw new Exception('Curl error: ' . curl_error($ch) . ' - ' . curl_errno($ch));
         }
+
+        if($httpcode = $info['http_code'] != 200) {
+            switch($httpcode){
+                case 400:
+                    // Bad request missing authorzation key
+                    break;
+                case 401:
+                    // Unauthorized invalid authorization key
+                    break;
+                default:
+                    // Something different
+                    break;
+            }
+            // if response not equals 200 OK
+            // notify user
+        }
+        $key = $this->ApiUrl->getAuthKey();
+        $decoded = rtrim(mcrypt_decrypt(MCRYPT_RIJNDAEL_256, md5($key), base64_decode($result), MCRYPT_MODE_CBC, md5(md5($key))), "\0");
+        $result_array = unserialize($decoded);
+        $result_data = json_decode($result);
         curl_close($ch);
-        $result = json_decode($result);
-        return $result;
+
+        return $result_array;
     }
 
-
-    /**
-     * @return mixed
-     */
     public function getMadeTaskStudentsByStudentTaskId($opdrachtid)
     {
-        $url = 'http://weitjerock:8888/pms/wp-json/pms/v2/made_task_student_by_student_task_id/'.$opdrachtid.'/';
+        $this->ApiUrl->getUrlLinkByName('Backend IVS');
+
+        $url = $this->ApiUrl->getUrl(). 'made_task_student_by_student_task_id/'.$opdrachtid.'/';
+        $key = $this->ApiUrl->getAuthKey();
+
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
@@ -122,22 +221,48 @@ class APIFromBIS {
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
         curl_setopt($ch, CURLOPT_FAILONERROR, true);
         curl_setopt($ch, CURLOPT_ENCODING, '');
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Authorization: '. $key));
 
+        $result = curl_exec($ch);
+
+        $info = curl_getinfo($ch);
         // Execute and catch curl errors
-        if(($result = curl_exec($ch)) === false){
+        if($result == false){
             throw new Exception('Curl error: ' . curl_error($ch) . ' - ' . curl_errno($ch));
         }
+
+        if($httpcode = $info['http_code'] != 200) {
+            switch($httpcode){
+                case 400:
+                    // Bad request missing authorzation key
+                    break;
+                case 401:
+                    // Unauthorized invalid authorization key
+                    break;
+                default:
+                    // Something different
+                    break;
+            }
+            // if response not equals 200 OK
+            // notify user
+        }
+        $key = $this->ApiUrl->getAuthKey();
+        $decoded = rtrim(mcrypt_decrypt(MCRYPT_RIJNDAEL_256, md5($key), base64_decode($result), MCRYPT_MODE_CBC, md5(md5($key))), "\0");
+        $result_array = unserialize($decoded);
+        $result_data = json_decode($result);
         curl_close($ch);
-        $result = json_decode($result);
-        return $result;
+
+//        var_dump($result_data);
+        return $result_array;
     }
 
-    /**
-     * @return mixed
-     */
     public function getMadeTaskId($opdrachtid)
     {
-        $url = 'http://weitjerock:8888/pms/wp-json/pms/v2/made_taskid/'.$opdrachtid.'/';
+        $this->ApiUrl->getUrlLinkByName('Backend IVS');
+
+        $url = $this->ApiUrl->getUrl(). 'made_taskid/'.$opdrachtid.'/';
+        $key = $this->ApiUrl->getAuthKey();
+
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
@@ -145,22 +270,46 @@ class APIFromBIS {
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
         curl_setopt($ch, CURLOPT_FAILONERROR, true);
         curl_setopt($ch, CURLOPT_ENCODING, '');
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Authorization: '. $key));
 
+        $result = curl_exec($ch);
+
+        $info = curl_getinfo($ch);
         // Execute and catch curl errors
-        if(($result = curl_exec($ch)) === false){
+        if($result == false){
             throw new Exception('Curl error: ' . curl_error($ch) . ' - ' . curl_errno($ch));
         }
+
+        if($httpcode = $info['http_code'] != 200) {
+            switch($httpcode){
+                case 400:
+                    // Bad request missing authorzation key
+                    break;
+                case 401:
+                    // Unauthorized invalid authorization key
+                    break;
+                default:
+                    // Something different
+                    break;
+            }
+            // if response not equals 200 OK
+            // notify user
+        }
+        $key = $this->ApiUrl->getAuthKey();
+        $decoded = rtrim(mcrypt_decrypt(MCRYPT_RIJNDAEL_256, md5($key), base64_decode($result), MCRYPT_MODE_CBC, md5(md5($key))), "\0");
+        $result_array = unserialize($decoded);
+        $result_data = json_decode($result);
         curl_close($ch);
-        $result = json_decode($result);
-        return $result;
+
+        return $result_array;
     }
 
-    /**
-     * @return mixed
-     */
     public function getMadeTaskByTaskId($opdrachtid)
     {
-        $url = 'http://weitjerock:8888/pms/wp-json/pms/v2/made_task_by_task_id/'.$opdrachtid.'/';
+        $this->ApiUrl->getUrlLinkByName('Backend IVS');
+
+        $url = $this->ApiUrl->getUrl(). 'made_task_by_task_id/'.$opdrachtid.'/';
+        $key = $this->ApiUrl->getAuthKey();
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
@@ -168,22 +317,47 @@ class APIFromBIS {
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
         curl_setopt($ch, CURLOPT_FAILONERROR, true);
         curl_setopt($ch, CURLOPT_ENCODING, '');
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Authorization: '. $key));
 
+        $result = curl_exec($ch);
+
+        $info = curl_getinfo($ch);
         // Execute and catch curl errors
-        if(($result = curl_exec($ch)) === false){
+        if($result == false){
             throw new Exception('Curl error: ' . curl_error($ch) . ' - ' . curl_errno($ch));
         }
+
+        if($httpcode = $info['http_code'] != 200) {
+            switch($httpcode){
+                case 400:
+                    // Bad request missing authorzation key
+                    break;
+                case 401:
+                    // Unauthorized invalid authorization key
+                    break;
+                default:
+                    // Something different
+                    break;
+            }
+            // if response not equals 200 OK
+            // notify user
+        }
+
+        $key = $this->ApiUrl->getAuthKey();
+        $decoded = rtrim(mcrypt_decrypt(MCRYPT_RIJNDAEL_256, md5($key), base64_decode($result), MCRYPT_MODE_CBC, md5(md5($key))), "\0");
+        $result_array = unserialize($decoded);
+        $result_data = json_decode($result);
         curl_close($ch);
-        $result = json_decode($result);
-        return $result;
+        return $result_array;
     }
 
-    /**
-     * @return mixed
-     */
     public function getMadeTasksByStudentId($studentid)
     {
-        $url = 'http://weitjerock:8888/pms/wp-json/pms/v2/made_task_by_student_id/'.$studentid.'/';
+        $this->ApiUrl->getUrlLinkByName('Backend IVS');
+
+        $url = $this->ApiUrl->getUrl(). 'made_task_by_student_id/'.$studentid.'/';
+        $key = $this->ApiUrl->getAuthKey();
+
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
@@ -191,22 +365,45 @@ class APIFromBIS {
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
         curl_setopt($ch, CURLOPT_FAILONERROR, true);
         curl_setopt($ch, CURLOPT_ENCODING, '');
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Authorization: '. $key));
 
+        $result = curl_exec($ch);
+        $info = curl_getinfo($ch);
         // Execute and catch curl errors
-        if(($result = curl_exec($ch)) === false){
+        if($result == false){
             throw new Exception('Curl error: ' . curl_error($ch) . ' - ' . curl_errno($ch));
         }
+
+        if($httpcode = $info['http_code'] != 200) {
+            switch($httpcode){
+                case 400:
+                    // Bad request missing authorzation key
+                    break;
+                case 401:
+                    // Unauthorized invalid authorization key
+                    break;
+                default:
+                    // Something different
+                    break;
+            }
+            // if response not equals 200 OK
+            // notify user
+        }
+        $key = $this->ApiUrl->getAuthKey();
+        $decoded = rtrim(mcrypt_decrypt(MCRYPT_RIJNDAEL_256, md5($key), base64_decode($result), MCRYPT_MODE_CBC, md5(md5($key))), "\0");
+        $result_array = unserialize($decoded);
         curl_close($ch);
-        $result = json_decode($result);
-        return $result;
+        return $result_array;
+
     }
 
-    /**
-     * @return mixed
-     */
     public function getMadeTaskSubmussionDateByTaskStudentId($opdrachtid)
     {
-        $url = 'http://weitjerock:8888/pms/wp-json/pms/v2/made_task_submission_date_by_taks_student_id/'.$opdrachtid.'/';
+        $this->ApiUrl->getUrlLinkByName('Backend IVS');
+
+        $url = $this->ApiUrl->getUrl(). 'made_task_submission_date_by_taks_student_id/'.$opdrachtid.'/';
+        $key = $this->ApiUrl->getAuthKey();
+
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
@@ -214,28 +411,82 @@ class APIFromBIS {
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
         curl_setopt($ch, CURLOPT_FAILONERROR, true);
         curl_setopt($ch, CURLOPT_ENCODING, '');
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Authorization: '. $key));
 
+        $result = curl_exec($ch);
+
+        $info = curl_getinfo($ch);
         // Execute and catch curl errors
-        if(($result = curl_exec($ch)) === false){
+        if($result == false){
             throw new Exception('Curl error: ' . curl_error($ch) . ' - ' . curl_errno($ch));
         }
+
+        if($httpcode = $info['http_code'] != 200) {
+            switch($httpcode){
+                case 400:
+                    // Bad request missing authorzation key
+                    break;
+                case 401:
+                    // Unauthorized invalid authorization key
+                    break;
+                default:
+                    // Something different
+                    break;
+            }
+            // if response not equals 200 OK
+            // notify user
+        }
+        $key = $this->ApiUrl->getAuthKey();
+        $decoded = rtrim(mcrypt_decrypt(MCRYPT_RIJNDAEL_256, md5($key), base64_decode($result), MCRYPT_MODE_CBC, md5(md5($key))), "\0");
+        $result_array = unserialize($decoded);
         curl_close($ch);
-        $result = json_decode($result);
-        return $result;
+        return $result_array;
     }
 
-    /**
-     *
-     */
-    public function getUrlLinkById(){
+    public function getLevelList(){
+        $this->ApiUrl->getUrlLinkByName('Backend IVS');
 
+        $url = $this->ApiUrl->getUrl(). 'level/';
+        $key = $this->ApiUrl->getAuthKey();
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
+        curl_setopt($ch, CURLOPT_FAILONERROR, true);
+        curl_setopt($ch, CURLOPT_ENCODING, '');
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Authorization: '. $key));
+
+        $result = curl_exec($ch);
+        $info = curl_getinfo($ch);
+        // Execute and catch curl errors
+        if($result == false){
+            throw new Exception('Curl error: ' . curl_error($ch) . ' - ' . curl_errno($ch));
+        }
+
+        if($httpcode = $info['http_code'] != 200) {
+            switch($httpcode){
+                case 400:
+                    // Bad request missing authorzation key
+                    break;
+                case 401:
+                    // Unauthorized invalid authorization key
+                    break;
+                default:
+                    // Something different
+                    break;
+            }
+            // if response not equals 200 OK
+            // notify user
+        }
+        $key = $this->ApiUrl->getAuthKey();
+        $decoded = rtrim(mcrypt_decrypt(MCRYPT_RIJNDAEL_256, md5($key), base64_decode($result), MCRYPT_MODE_CBC, md5(md5($key))), "\0");
+        $result_array = unserialize($decoded);
+
+        curl_close($ch);
+
+
+        return $result_array;
     }
-
-    /**
-     *
-     */
-    public function getUrlLinkByName(){
-
-    }
-
 }

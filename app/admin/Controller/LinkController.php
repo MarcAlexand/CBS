@@ -14,22 +14,27 @@ class LinkController
     /**
      * @var void
      */
-    public $id;
+    private $id;
 
     /**
      * @var void
      */
-    public $name;
+    private $name;
+
+    /*
+     * @var string
+     */
+    private $shortcode;
 
     /**
      * @var void
      */
-    public $url;
+    private $url;
 
     /**
      * @var void
      */
-    public $authKey;
+    private $authKey;
 
     /**
      *
@@ -104,12 +109,29 @@ class LinkController
     }
 
     /**
+     * @return mixed
+     */
+    public function getShortcode()
+    {
+        return $this->shortcode;
+    }
+
+    /**
+     * @param mixed $shortcode
+     */
+    public function setShortcode($shortcode)
+    {
+        $this->shortcode = $shortcode;
+    }
+
+    /**
      * @param $data
      */
     public function setApiUrlLinkFromDatabase($data)
     {
         $this->setId($data['id_api_link']);
         $this->setName($data['api_link_naam']);
+        $this->setShortcode($data['api_link_systeem_afkorting']);
         $this->setUrl($data['api_link_url']);
         $this->setAuthKey($data['api_link_sleutel']);
     }
@@ -122,6 +144,7 @@ class LinkController
     public function setApiUrlLinkToDatabase($data)
     {
         $this->setName($data['api_link_naam']);
+        $this->setShortcode($data['api_link_systeem_afkorting']);
         $this->setUrl($data['api_link_url']);
         $this->setAuthKey($data['api_link_sleutel']);
     }
@@ -132,17 +155,10 @@ class LinkController
     public function create()
     {
         $this->db->setName($this->name);
+        $this->db->setShortcode($this->shortcode);
         $this->db->setUrl($this->url);
         $this->db->setAuthKey($this->authKey);
         $this->db->createDb();
-    }
-
-    /**
-     *
-     */
-    public function read()
-    {
-        // TODO: implement here
     }
 
     /**
@@ -175,9 +191,11 @@ class LinkController
     /**
      *
      */
-    public function getUrlLinkByName()
+    public function getUrlLinkByName($info)
     {
-        // TODO: implement here
+        $data = $this->db->getUrlLinkByName($info);
+        $this->setApiUrlLinkFromDatabase($data);
+        return $this;
     }
 
     /**
@@ -193,4 +211,6 @@ class LinkController
         }
         return $api_model;
     }
+
+
 }
